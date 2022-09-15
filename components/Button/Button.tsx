@@ -1,10 +1,17 @@
-import { MouseEvent } from 'react'
+import { FC, MouseEvent } from 'react'
 import styled from '@emotion/styled'
-import { boxShadow, transition, getColors, Color } from '@/components/styles'
+import { makeShadow } from '@/styles/helpers'
 
-export type ButtonProps = {
+type ButtonColors = 'primary' | 'secondary' | 'danger' | 'warning'
+
+type ButtonProps = {
+  /** Text in the button */
   children: string
-  color?: Color
+
+  /** Button color */
+  color?: ButtonColors
+
+  /** Click handler */
   onClick: (event: MouseEvent<HTMLButtonElement>) => void
 }
 
@@ -20,18 +27,40 @@ export const Button = styled.button<ButtonProps>`
   width: 15rem;
   height: 4rem;
   border-radius: 1rem;
+  transition: all 0.4s ease;
+
+  color: ${({ color, theme }) => {
+    const $font = color === 'secondary' ? 'regular' : color === 'warning' ? 'warning' : 'button'
+    return theme.font[$font]
+  }};
+
+  background-color: ${({ color = 'primary', theme }) => {
+    const $color = color === 'secondary' ? 'transparent' : theme.components[color]
+    return $color
+  }};
+
+  box-shadow: ${({ theme }) => {
+    const { shadow1, shadow2 } = theme.components
+    const $shadow = makeShadow(shadow1, shadow2)
+    return $shadow
+  }};
+
+  &:active {
+    box-shadow: ${({ theme }) => {
+      const { shadow1, shadow2 } = theme.components
+      const $shadow = makeShadow(shadow1, shadow2, true)
+      return $shadow
+    }};
+  }
 
   &:hover {
     opacity: 0.9;
   }
-
-  &:active {
-    ${({ theme }) => boxShadow(theme.components.shadow1, theme.components.shadow2, true)}
-  }
-
-  ${transition()}
-  ${({ color, theme }) => getColors(theme, color)}
-  ${({ theme }) => boxShadow(theme.components.shadow1, theme.components.shadow2)}
 `
 
-Button.defaultProps = { color: 'primary' }
+type DefinedButton = Omit<ButtonProps, 'color'>
+
+export const PrimaryButton: FC<DefinedButton> = (props): JSX.Element => <Button color='primary' {...props} />
+export const SecondaryButton: FC<DefinedButton> = (props): JSX.Element => <Button color='secondary' {...props} />
+export const DangerButton: FC<DefinedButton> = (props): JSX.Element => <Button color='danger' {...props} />
+export const WarningButton: FC<DefinedButton> = (props): JSX.Element => <Button color='warning' {...props} />

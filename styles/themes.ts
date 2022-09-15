@@ -19,6 +19,10 @@ const dark = {
     warning: '#5e5c64e6',
     valid: '#49fb4fe6',
     invalid: '#ff9ea6e6',
+    logo: '#f93',
+    logoShadow1: '#fed028',
+    logoShadow2: '#e93020',
+    placeholder: '#bec8e4',
   },
 }
 
@@ -36,11 +40,15 @@ const light: AppTheme = {
     warning: '#ffca2ce6',
   },
   font: {
-    regular: '#5e5c64e6',
+    regular: '#504e55e6',
     button: '#e4ebf5e6',
-    warning: '#5e5c64e6',
+    warning: '#504e55e6',
     valid: '#198754e6',
     invalid: '#dc3545e6',
+    logo: '#fff',
+    logoShadow1: '#000',
+    logoShadow2: '#6d5dfc',
+    placeholder: '#504e55e6',
   },
 }
 
