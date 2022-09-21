@@ -13,5 +13,3 @@ const customRender = (ui: ReactElement, options?: RenderOptions): RenderResult =
 
 export * from '@testing-library/react'
 export { customRender as render }
-
-// 14

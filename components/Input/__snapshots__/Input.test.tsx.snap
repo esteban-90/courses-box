@@ -3,19 +3,23 @@
 exports[`Input test cases Render check 1`] = `
 <DocumentFragment>
   <label
-    class="css-ju0hvu"
+    class="css-p501qj"
+    height="7"
+    width="20"
   >
-    Label
-    <br />
-    <input
-      class="css-5zr1y5"
-      id="prefix-74fe512516ddd"
-      placeholder="Placeholder"
-    />
-    <br />
-    <label
-      class="css-ju0hvu"
-    />
+    <span
+      class="css-1g58nbn"
+    >
+      Label
+    </span>
+    <div
+      class="css-6nw0cx"
+    >
+      <input
+        class="css-1cvyunr"
+        placeholder="Placeholder"
+      />
+    </div>
   </label>
 </DocumentFragment>
 `;
@@ -23,32 +27,36 @@ exports[`Input test cases Render check 1`] = `
 exports[`Input test cases Render check with icon 1`] = `
 <DocumentFragment>
   <label
-    class="css-ju0hvu"
+    class="css-p501qj"
+    height="7"
+    width="20"
   >
-    Label
-    <br />
-    <input
-      class="css-v1ub5e"
-      id="prefix-609d4a0fc8e52"
-      placeholder="Placeholder"
-    />
-    <svg
-      aria-label="Search"
-      class="css-1vvhauz"
-      fill="currentColor"
-      height="2rem"
-      role="img"
-      viewBox="0 0 16 16"
-      width="2rem"
+    <span
+      class="css-1g58nbn"
     >
-      <path
-        d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1.007 1.007 0 00-.115-.1zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z"
+      Label
+    </span>
+    <div
+      class="css-6nw0cx"
+    >
+      <input
+        class="css-1cvyunr"
+        placeholder="Placeholder"
       />
-    </svg>
-    <br />
-    <label
-      class="css-ju0hvu"
-    />
+      <svg
+        aria-label="Search"
+        class="css-5n1pld"
+        fill="currentColor"
+        height="2rem"
+        role="img"
+        viewBox="0 0 16 16"
+        width="2rem"
+      >
+        <path
+          d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1.007 1.007 0 00-.115-.1zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z"
+        />
+      </svg>
+    </div>
   </label>
 </DocumentFragment>
 `;

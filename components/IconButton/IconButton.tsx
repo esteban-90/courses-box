@@ -3,11 +3,11 @@ import styled from '@emotion/styled'
 import { Icon, IconProps } from '@/components/Icon'
 import { makeShadow } from '@/styles/helpers'
 
-type $ButtonProps = {
+type StyledButtonProps = {
   size: number
 }
 
-const $Button = styled.button<$ButtonProps>`
+const StyledButton = styled.button<StyledButtonProps>`
   all: unset;
   display: flex;
   justify-content: center;
@@ -44,8 +44,8 @@ type IconButtonProps = {
 
 export const IconButton: FC<IconButtonProps> = ({ onClick, ...rest }): JSX.Element => {
   return (
-    <$Button onClick={onClick} size={(rest.size ?? 2) * 2} title={rest.name}>
+    <StyledButton onClick={onClick} size={(rest.size ?? 2) * 2} title={rest.name}>
       <Icon {...rest} />
-    </$Button>
+    </StyledButton>
   )
 }

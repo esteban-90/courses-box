@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react'
 import styled from '@emotion/styled'
 import { makeShadow } from '@/styles/helpers'
 
-const $Section = styled.section`
+const StyledWrapper = styled.section`
   padding: 1vmin 4vmin 4vmin;
   border-radius: 1rem;
   color: ${({ theme }) => theme.font.regular};
@@ -25,9 +25,9 @@ type TileProps = {
 
 export const Tile: FC<TileProps> = ({ heading, children }): JSX.Element => {
   return (
-    <$Section>
+    <StyledWrapper>
       <h2>{heading}</h2>
       {children}
-    </$Section>
+    </StyledWrapper>
   )
 }

@@ -3,14 +3,14 @@ import styled from '@emotion/styled'
 import { Icon, AvailableIcons } from '@/components/Icon'
 import { makeShadow } from '@/styles/helpers'
 
-const $Input = styled.input`
+const StyledInput = styled.input`
   all: unset;
   border-radius: 1rem;
   font-size: 1.4rem;
   padding: 0 1.4rem;
 
-  width: ${({ width }) => width}rem;
-  height: ${({ height }) => height}rem;
+  width: 100%;
+  height: 100%;
   color: ${({ theme }) => theme.font.regular};
 
   box-shadow: ${({ theme }) => {
@@ -43,26 +43,40 @@ const $Input = styled.input`
   }
 `
 
-const $Wrapper = styled.div`
+const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
 `
 
-const $Label = styled.label`
+type StyledLabelProps = {
+  /** Input height */
+  height?: number
+
+  /** Input width */
+  width?: number
+}
+
+const StyledLabel = styled.label<StyledLabelProps>`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
   font-size: 1rem;
+  height: ${({ height }) => height}rem;
+  width: ${({ width }) => width}rem;
   color: ${({ theme }) => theme.font.regular};
 `
 
-const $Icon = styled(Icon)`
-  margin-left: -2.5rem;
+const StyledIcon = styled(Icon)`
+  position: absolute;
+  right: 1.4rem;
   opacity: 0.7;
   color: ${({ theme }) => theme.font.placeholder};
 `
 
-const $Text = styled.span`
+const StyledText = styled.span`
   padding-left: 1.4rem;
 `
 
@@ -81,25 +95,28 @@ type InputProps = {
 
   /** Feedback for input */
   feedback?: ReactNode
+} & StyledLabelProps &
+  InputHTMLAttributes<HTMLInputElement>
 
-  /** Input height */
-  height?: number
-
-  /** Input width */
-  width?: number
-} & InputHTMLAttributes<HTMLInputElement>
-
-export const Input: FC<InputProps> = ({ label, icon, feedback, height = 4, width = 20, ...rest }): JSX.Element => {
+export const Input: FC<InputProps> = ({
+  label,
+  icon,
+  feedback,
+  height = 7,
+  width = 20,
+  className,
+  ...rest
+}): JSX.Element => {
   return (
-    <$Label>
-      {label && <$Text>{label}</$Text>}
+    <StyledLabel height={height} width={width} className={className}>
+      {label && <StyledText>{label}</StyledText>}
 
-      <$Wrapper>
-        <$Input height={height} width={width} {...rest} />
-        {icon && <$Icon name={icon} />}
-      </$Wrapper>
+      <StyledWrapper>
+        <StyledInput {...rest} />
+        {icon && <StyledIcon name={icon} />}
+      </StyledWrapper>
 
-      {feedback && <$Text>{feedback}</$Text>}
-    </$Label>
+      {feedback && <StyledText>{feedback}</StyledText>}
+    </StyledLabel>
   )
 }

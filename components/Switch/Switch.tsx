@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import { useId } from '@/components/hooks'
 import { makeShadow } from '@/styles/helpers'
 
-const $Wrapper = styled.label`
+const StyledWrapper = styled.label`
   & > input {
     display: none;
   }
@@ -20,7 +20,7 @@ const $Wrapper = styled.label`
   }
 `
 
-const $VisiblePart = styled.label`
+const StyledVisiblePart = styled.label`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -57,9 +57,9 @@ export const Switch: FC<SwitchProps> = ({ onChange }): JSX.Element => {
   const inputId = useId()
 
   return (
-    <$Wrapper>
+    <StyledWrapper>
       <input id={inputId} type='checkbox' onChange={onChange} />
-      <$VisiblePart htmlFor={inputId} data-testid='SwitchVisiblePart' />
-    </$Wrapper>
+      <StyledVisiblePart htmlFor={inputId} data-testid='SwitchVisiblePart' />
+    </StyledWrapper>
   )
 }

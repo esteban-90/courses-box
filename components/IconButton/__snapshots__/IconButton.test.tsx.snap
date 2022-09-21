@@ -3,7 +3,8 @@
 exports[`IconButton test cases Render check 1`] = `
 <DocumentFragment>
   <button
-    class="css-8b49"
+    class="css-15sw8os"
+    size="4"
     title="Home"
   >
     <svg

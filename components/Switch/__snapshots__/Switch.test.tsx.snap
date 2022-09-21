@@ -10,7 +10,7 @@ exports[`Checkbox test cases Render check 1`] = `
       type="checkbox"
     />
     <label
-      class="css-1vlnlw4"
+      class="css-1kzb2zn"
       data-testid="SwitchVisiblePart"
       for="prefix-fffffffbb47d08"
     />

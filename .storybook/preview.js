@@ -34,8 +34,8 @@ export const decorators = [withThemeProvider, withGlobalStyles]
 
 export const parameters = {
   backgrounds: {
-    default: 'dark',
-    defaultColor: '#5e5c64',
+    default: 'light',
+    defaultColor: '#e4ebf5',
     values: [
       { name: 'dark', value: '#5e5c64' },
       { name: 'light', value: '#e4ebf5' },

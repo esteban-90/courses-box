@@ -27,6 +27,13 @@ export const PrimaryInput: ComponentStoryObj<typeof Input> = {
 export const WithIcon: ComponentStoryObj<typeof Input> = {
   args: {
     icon: 'Search',
+    feedback: <Feedback isValid>Looks good!</Feedback>,
+  },
+
+  argTypes: {
+    feedback: {
+      control: false,
+    },
   },
 }
 

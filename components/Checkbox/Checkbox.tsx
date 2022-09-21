@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import { useId } from '@/components/hooks'
 import { makeShadow } from '@/styles/helpers'
 
-const $Wrapper = styled.label`
+const StyledWrapper = styled.label`
   font-size: 1.8rem;
 
   & > input {
@@ -22,7 +22,8 @@ const $Wrapper = styled.label`
     }
   }
 `
-const $VisiblePart = styled.label`
+
+const StyledVisiblePart = styled.label`
   display: inline-block;
   user-select: none;
   cursor: pointer;
@@ -58,9 +59,9 @@ export const Checkbox: FC<CheckboxProps> = ({ onChange }): JSX.Element => {
   const inputId = useId()
 
   return (
-    <$Wrapper>
+    <StyledWrapper>
       <input id={inputId} type='checkbox' onChange={onChange} />
-      <$VisiblePart htmlFor={inputId}>&#x1F5F8;</$VisiblePart>
-    </$Wrapper>
+      <StyledVisiblePart htmlFor={inputId}>&#x1F5F8;</StyledVisiblePart>
+    </StyledWrapper>
   )
 }

@@ -3,14 +3,14 @@
 exports[`Checkbox test cases Render check 1`] = `
 <DocumentFragment>
   <label
-    class="css-xcoev1"
+    class="css-8cfq59"
   >
     <input
       id="prefix-fffffffbb47d08"
       type="checkbox"
     />
     <label
-      class="css-4navvy"
+      class="css-5d4o2q"
       for="prefix-fffffffbb47d08"
     >
       🗸
