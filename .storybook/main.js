@@ -35,6 +35,6 @@ module.exports = {
   features: {
     emotionAlias: false,
   },
-}
 
-// 17
+  typescript: { reactDocgen: false },
+}

@@ -1,5 +1,5 @@
 import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
-import { expect } from '@storybook/jest'
+// import { expect } from '@storybook/jest'
 import { screen, userEvent } from '@storybook/testing-library'
 import { Input } from './Input'
 import { Feedback } from './Feedback'
@@ -16,7 +16,8 @@ export default {
 export const PrimaryInput: ComponentStoryObj<typeof Input> = {
   async play({ args }) {
     await userEvent.type(screen.getByRole('textbox'), 'String')
-    await expect(args.onChange).toHaveBeenCalledTimes(6)
+    // @todo: https://github.com/storybookjs/storybook/issues/16941
+    // await expect(args.onChange).toHaveBeenCalledTimes(6)
   },
 
   args: {
