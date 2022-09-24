@@ -1,4 +1,4 @@
-name: 'Chromatic'
+name: "Chromatic"
 
 on:
   push:
@@ -9,6 +9,9 @@ on:
 jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
       - uses: actions/checkout@v2
         with:
@@ -18,4 +21,5 @@ jobs:
       - name: Publih to Chromatic
         uses: chromaui/action@v1
         with:
+          workingDir: frontend
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
