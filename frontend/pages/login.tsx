@@ -1,54 +1,39 @@
 import type { NextPage } from 'next'
 import NextLink from 'next/link'
 import styled from '@emotion/styled'
-import { useForm } from 'react-hook-form'
 import { Button, Input, Feedback, Link, CenteredTile } from '@/components'
+import { useLoginForm } from '@/hooks'
+import { loginFormData } from '@/types'
 
-type LoginFormData = {
-  identifier: string
-  password: string
-}
-
-const StyledInput = styled(Input)`
+const LoginInput = styled(Input)`
   margin-bottom: 1rem;
 `
 
 const Login: NextPage = (): JSX.Element => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>()
+  const { handleSubmit, emailField, emailError, passwordField, passwordError } = useLoginForm()
 
-  const submitHandler = (data: LoginFormData) => {
+  const submitHandler = (data: loginFormData) => {
     console.log(data)
   }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)}>
+    <form onSubmit={handleSubmit(submitHandler)} data-testid='login-form'>
       <CenteredTile heading='Login Page'>
-        <StyledInput
-          label='Identifier'
+        <LoginInput
+          label='Email'
+          type='email'
           placeholder='username or email'
-          height={8}
-          {...register('identifier', {
-            required: 'This field is required',
-            minLength: { value: 6, message: 'Too short, min length: 6' },
-          })}
-          feedback={errors.identifier ? <Feedback>{errors.identifier?.message}</Feedback> : <>&nbsp;</>}
+          {...emailField}
+          feedback={emailError ? <Feedback>{emailError}</Feedback> : <>&nbsp;</>}
         />
 
-        <StyledInput
+        <LoginInput
           label='Password'
           type='password'
           placeholder='password'
-          height={8}
           role='textbox'
-          {...register('password', {
-            required: 'This field is required',
-            minLength: { value: 8, message: 'Too short, min length: 8' },
-          })}
-          feedback={errors.password ? <Feedback>{errors.password?.message}</Feedback> : <>&nbsp;</>}
+          {...passwordField}
+          feedback={passwordError ? <Feedback>{passwordError}</Feedback> : <>&nbsp;</>}
         />
 
         <Button type='submit'>Login</Button>

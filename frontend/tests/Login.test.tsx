@@ -6,6 +6,7 @@ describe('Login Page test cases', () => {
   it('Render check', () => {
     const { container } = render(<Login />)
     expect(container).toMatchSnapshot()
+    expect(screen.getByTestId('login-form')).toHaveFormValues({ email: '', password: '' })
   })
 
   it('Client validation check', async () => {
@@ -15,25 +16,25 @@ describe('Login Page test cases', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Login' }))
     })
 
-    expect(screen.getAllByText('This field is required')).toHaveLength(2)
+    expect(screen.getByText('Email is required')).toBeInTheDocument()
+    expect(screen.getByText('Password is required')).toBeInTheDocument()
 
     await act(async () => {
-      await userEvent.type(screen.getByRole('textbox', { name: 'Identifier This field is required' }), 'test')
+      await userEvent.type(screen.getByRole('textbox', { name: 'Email Email is required' }), 'test')
     })
 
-    expect(screen.getByText('This field is required')).toBeInTheDocument()
-    expect(screen.getByText('Too short, min length: 6')).toBeInTheDocument()
+    expect(screen.getByText('Email is not valid')).toBeInTheDocument()
 
     await act(async () => {
-      await userEvent.type(screen.getByRole('textbox', { name: 'Password This field is required' }), 'test')
+      await userEvent.type(screen.getByRole('textbox', { name: 'Password Password is required' }), 'test')
     })
 
-    expect(screen.getByText('Too short, min length: 6')).toBeInTheDocument()
-    expect(screen.getByText('Too short, min length: 8')).toBeInTheDocument()
+    expect(screen.getByText('Email is not valid')).toBeInTheDocument()
+    expect(screen.getByText('Password is not strong enough')).toBeInTheDocument()
 
     await act(async () => {
-      userEvent.type(screen.getByRole('textbox', { name: 'Identifier Too short, min length: 6' }), 'test@example.com')
-      userEvent.type(screen.getByRole('textbox', { name: 'Password Too short, min length: 8' }), 'testtest!')
+      await userEvent.type(screen.getByRole('textbox', { name: 'Email Email is not valid' }), 'test@example.com')
+      await userEvent.type(screen.getByRole('textbox', { name: 'Password Password is not strong enough' }), 'Test1234*')
     })
 
     const [alert1, alert2] = screen.getAllByRole('alert')

@@ -5,11 +5,7 @@ exports[`Login Page test cases Client validation check 1`] = `
   class="css-1reg724"
   role="alert"
 >
-  <span
-    class="css-xjluvf"
-  >
-    Too short, min length: 6
-  </span>
+   
 </span>
 `;
 
@@ -24,7 +20,9 @@ exports[`Login Page test cases Client validation check 2`] = `
 
 exports[`Login Page test cases Render check 1`] = `
 <div>
-  <form>
+  <form
+    data-testid="login-form"
+  >
     <div
       class="css-gbwc6v"
     >
@@ -35,22 +33,23 @@ exports[`Login Page test cases Render check 1`] = `
           Login Page
         </h2>
         <label
-          class="css-lnxsde"
-          height="8"
+          class="css-fjegpl"
+          height="7"
           width="20"
         >
           <span
             class="css-1grri41"
           >
-            Identifier
+            Email
           </span>
           <div
             class="css-11gjszk"
           >
             <input
               class="css-1cvyunr"
-              name="identifier"
+              name="email"
               placeholder="username or email"
+              type="email"
             />
           </div>
           <span
@@ -61,8 +60,8 @@ exports[`Login Page test cases Render check 1`] = `
           </span>
         </label>
         <label
-          class="css-lnxsde"
-          height="8"
+          class="css-fjegpl"
+          height="7"
           width="20"
         >
           <span

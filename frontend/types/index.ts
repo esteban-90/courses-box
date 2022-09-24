@@ -97,3 +97,8 @@ export type TileProps = {
   /** Text in the tile */
   children: ReactNode
 }
+
+export type loginFormData = {
+  email: string
+  password: string
+}
