@@ -1,7 +1,7 @@
 import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 import { expect } from '@storybook/jest'
 import { screen } from '@storybook/testing-library'
-import { Feedback } from './Feedback'
+import { Feedback } from '@/components/Input'
 
 export default {
   title: 'Controls/Feedback',

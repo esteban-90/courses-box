@@ -1,21 +1,24 @@
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@/test-utils'
-import { Checkbox } from './Checkbox'
+import { Checkbox } from '@/components/Checkbox'
 
 describe('Checkbox test cases', () => {
   it('Render check', () => {
-    const onChange = jest.fn()
     jest.spyOn(Math, 'random').mockReturnValue(0.999_999_999)
-    const { asFragment } = render(<Checkbox onChange={onChange} />)
+
+    const changeHandler = jest.fn()
+    const element = <Checkbox onChange={changeHandler} />
+    const { asFragment } = render(element)
 
     expect(asFragment()).toMatchSnapshot()
   })
 
   it('Check onChange callback', async () => {
-    const onChange = jest.fn()
+    const changeHandler = jest.fn()
+    const element = <Checkbox onChange={changeHandler} />
 
-    render(<Checkbox onChange={onChange} />)
+    render(element)
     await userEvent.click(screen.getByRole('checkbox', { hidden: true }))
-    expect(onChange).toHaveBeenCalled()
+    expect(changeHandler).toHaveBeenCalled()
   })
 })

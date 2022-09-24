@@ -1,19 +1,7 @@
-import { FC, MouseEvent } from 'react'
+import { FC } from 'react'
 import styled from '@emotion/styled'
 import { makeShadow } from '@/styles/helpers'
-
-type ButtonColors = 'primary' | 'secondary' | 'danger' | 'warning'
-
-type ButtonProps = {
-  /** Text in the button */
-  children: string
-
-  /** Button color */
-  color?: ButtonColors
-
-  /** Click handler */
-  onClick: (event: MouseEvent<HTMLButtonElement>) => void
-}
+import { ButtonProps, DefinedButton } from '@/types'
 
 export const Button = styled.button<ButtonProps>`
   all: unset;
@@ -57,8 +45,6 @@ export const Button = styled.button<ButtonProps>`
     opacity: 0.9;
   }
 `
-
-type DefinedButton = Omit<ButtonProps, 'color'>
 
 export const PrimaryButton: FC<DefinedButton> = (props): JSX.Element => <Button color='primary' {...props} />
 export const SecondaryButton: FC<DefinedButton> = (props): JSX.Element => <Button color='secondary' {...props} />

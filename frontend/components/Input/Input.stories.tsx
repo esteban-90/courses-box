@@ -1,16 +1,12 @@
 import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 // import { expect } from '@storybook/jest'
 import { screen, userEvent } from '@storybook/testing-library'
-import { Input } from './Input'
-import { Feedback } from './Feedback'
+import { Input, Feedback } from '@/components/Input'
 
 export default {
   title: 'Controls/Input',
   component: Input,
-  args: {
-    placeholder: 'Your name',
-    label: 'Name:',
-  },
+  args: {},
 } as ComponentMeta<typeof Input>
 
 export const PrimaryInput: ComponentStoryObj<typeof Input> = {
@@ -21,25 +17,23 @@ export const PrimaryInput: ComponentStoryObj<typeof Input> = {
   },
 
   args: {
-    feedback: 'Looks cool!',
+    placeholder: 'Your name',
+    label: 'Name:',
   },
 }
 
 export const WithIcon: ComponentStoryObj<typeof Input> = {
   args: {
     icon: 'Search',
-    feedback: <Feedback isValid>Looks good!</Feedback>,
-  },
-
-  argTypes: {
-    feedback: {
-      control: false,
-    },
+    placeholder: 'Search',
+    height: 4,
   },
 }
 
 export const WithValidFeedback: ComponentStoryObj<typeof Input> = {
   args: {
+    placeholder: 'Some text',
+    label: 'Text:',
     feedback: <Feedback isValid>Looks good!</Feedback>,
   },
 
@@ -52,6 +46,7 @@ export const WithValidFeedback: ComponentStoryObj<typeof Input> = {
 
 export const WithInvalidFeedback: ComponentStoryObj<typeof Input> = {
   args: {
+    placeholder: 'Some text',
     feedback: <Feedback>Required!</Feedback>,
   },
 

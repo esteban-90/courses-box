@@ -1,7 +1,7 @@
 import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 // import { expect } from '@storybook/jest'
 import { screen, userEvent } from '@storybook/testing-library'
-import { Switch } from './Switch'
+import { Switch } from '@/components/Switch'
 
 export default {
   title: 'Controls/Switch',

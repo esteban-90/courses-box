@@ -1,157 +1,71 @@
-import { FC, ReactNode } from 'react'
-import Link from 'next/link'
-import styled from '@emotion/styled'
-import { Logo } from '@/components/Logo'
-import { Input } from '@/components/Input'
+import { FC, useState, useEffect, useLayoutEffect } from 'react'
+import { ThemeProvider } from '@emotion/react'
+import NextLink from 'next/link'
 import { IconButton } from '@/components/IconButton'
-import { Link as StyledLink } from '@/components/Link'
+import { Link } from '@/components/Link'
+import { Themes } from '@/styles/themes'
+import { LayoutProps } from '@/types'
+import * as Styled from './Layout.styled'
 
-const StyledWrapper = styled.div`
-  display: grid;
-  gap: 0.1rem;
-  padding: 0.5rem;
-  color: ${({ theme }) => theme.font.regular};
-  background-color: ${({ theme }) => theme.background};
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
-  grid-template-areas:
-    'header nav'
-    'search search'
-    'content content'
-    'footer footer';
+export const Layout: FC<LayoutProps> = ({ children }): JSX.Element => {
+  const [isDark, setIsDark] = useState(true)
+  const theme = Themes[isDark ? 'dark' : 'light']
 
-  nav {
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 5vmin;
+  const toggleTheme = () => {
+    localStorage.setItem('courses-box-theme', isDark ? 'light' : 'dark')
+    setIsDark(!isDark)
   }
 
-  @media (min-width: 500px) {
-    grid-template-columns: 1fr 3fr;
+  useIsomorphicLayoutEffect(() => {
+    const savedTheme = localStorage.getItem('courses-box-theme')
+    const savedThemeExists = savedTheme !== null
+    const savedThemeIsDark = savedTheme === 'dark'
+    const preferenceIsDark = window.matchMedia('prefers-color-scheme: dark').matches
+    const themeIsDark = savedThemeExists ? savedThemeIsDark : preferenceIsDark
 
-    /* grid-template-areas:
-      'header nav'
-      'search search'
-      'content content'
-      'footer footer';
+    setIsDark(themeIsDark)
+  }, [])
 
-    nav {
-      flex-direction: row;
-      justify-content: space-between;
-    } */
-  }
-
-  @media (min-width: 960px) {
-    grid-template-columns: 1fr 4fr 2fr;
-
-    grid-template-areas:
-      'header search nav'
-      'content content content'
-      'footer footer footer';
-
-    /* nav {
-      flex-direction: row;
-    } */
-  }
-`
-
-const StyledLogoLink = styled(StyledLink)`
-  padding-right: 1vw;
-`
-
-const StyledLogo = styled(Logo)`
-  grid-area: header;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  height: 4rem;
-
-  & .logo_full {
-    display: none;
-  }
-
-  @media (min-width: 560px) {
-    & .logo_short {
-      display: none;
-    }
-
-    & .logo_full {
-      display: inline;
-    }
-  }
-`
-
-const StyledNavigation = styled.nav`
-  grid-area: nav;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 0 2vmin;
-
-  /* a {
-    cursor: pointer;
-    color: ${({ theme }) => theme.font.regular};
-
-    &:hover {
-      opacity: 0.7;
-    }
-  } */
-`
-
-const StyledInput = styled(Input)`
-  grid-area: search;
-  width: 100%;
-  height: 4rem;
-`
-
-const StyledContent = styled.main`
-  grid-area: content;
-`
-
-const StyledFooter = styled.footer`
-  grid-area: footer;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  height: 5rem;
-`
-
-type LayoutProps = {
-  /** Layout children */
-  children: ReactNode
-
-  /** Theme toggler */
-  onThemeToggle: () => void
-
-  /** Theme color */
-  isDark: boolean
-}
-
-export const Layout: FC<LayoutProps> = ({ children, isDark, onThemeToggle }): JSX.Element => {
   return (
-    <StyledWrapper>
-      <Link href='/' passHref>
-        <StyledLogoLink>
-          <StyledLogo size={3}>
-            <span className='logo_short'>C8X</span>
-            <span className='logo_full'>CoursesBox</span>
-          </StyledLogo>
-        </StyledLogoLink>
-      </Link>
+    <ThemeProvider theme={theme}>
+      <Styled.Wrapper>
+        <NextLink href='/' passHref>
+          <Styled.LogoLink>
+            <Styled.Logo size={3}>
+              <span className='logo_short'>C8X</span>
+              <span className='logo_full'>CoursesBox</span>
+            </Styled.Logo>
+          </Styled.LogoLink>
+        </NextLink>
 
-      <StyledNavigation>
-        <Link href='/all' passHref>
-          <StyledLink>All</StyledLink>
-        </Link>
-        <Link href='/news' passHref>
-          <StyledLink>News</StyledLink>
-        </Link>
-        <IconButton name={isDark ? 'Sun' : 'Moon'} size={1} onClick={onThemeToggle} />
-      </StyledNavigation>
+        <Styled.Navigation>
+          <NextLink href='/all' passHref>
+            <Link>All</Link>
+          </NextLink>
 
-      <StyledInput icon='Search' placeholder='Search' onChange={() => {}}></StyledInput>
-      <StyledContent>{children}</StyledContent>
-      <StyledFooter>&copy; {new Date().getFullYear()} Esteban V.M. All rights reserved</StyledFooter>
-    </StyledWrapper>
+          <NextLink href='/login' passHref>
+            <IconButton name='Login' size={1} />
+          </NextLink>
+
+          <IconButton name={isDark ? 'Sun' : 'Moon'} size={1} onClick={toggleTheme} />
+        </Styled.Navigation>
+
+        <Styled.Input icon='Search' placeholder='Search' onChange={() => {}} />
+        <Styled.Content>{children}</Styled.Content>
+
+        <Styled.Footer>
+          <p>
+            &copy; {new Date().getFullYear()}&nbsp;
+            <Link href='https://github.com/esteban-90' target='_blank'>
+              Esteban V.M.
+            </Link>
+            &nbsp;
+          </p>
+          <p>All rights reserved</p>
+        </Styled.Footer>
+      </Styled.Wrapper>
+    </ThemeProvider>
   )
 }

@@ -1,7 +1,7 @@
 import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 import { expect } from '@storybook/jest'
 import { screen } from '@storybook/testing-library'
-import { Link } from './Link'
+import { Link } from '@/components/Link'
 
 export default {
   title: 'Content/Link',

@@ -1,7 +1,7 @@
 import { expect } from '@storybook/jest'
 import { screen } from '@storybook/testing-library'
 import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
-import { Course } from './Course'
+import { Course } from '@/components/Course'
 
 export default {
   title: 'Content/Course',

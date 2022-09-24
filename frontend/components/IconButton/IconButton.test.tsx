@@ -1,29 +1,32 @@
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@/test-utils'
-import { IconButton } from './IconButton'
+import { IconButton } from '@/components/IconButton'
 
 describe('IconButton test cases', () => {
   it('Render check', () => {
-    const onClick = jest.fn()
-    const { asFragment } = render(
-      <IconButton onClick={onClick} name='Home'>
+    const clickHandler = jest.fn()
+
+    const element = (
+      <IconButton onClick={clickHandler} name='Home'>
         Button
       </IconButton>
     )
 
+    const { asFragment } = render(element)
     expect(asFragment()).toMatchSnapshot()
   })
 
   it('Check onClick callback', async () => {
-    const onClick = jest.fn()
+    const clickHandler = jest.fn()
 
-    render(
-      <IconButton onClick={onClick} name='Home'>
+    const element = (
+      <IconButton onClick={clickHandler} name='Home'>
         Button
       </IconButton>
     )
 
+    render(element)
     await userEvent.click(screen.getByRole('button'))
-    expect(onClick).toHaveBeenCalled()
+    expect(clickHandler).toHaveBeenCalled()
   })
 })

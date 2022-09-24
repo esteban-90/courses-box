@@ -1,7 +1,7 @@
 import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 // import { expect } from '@storybook/jest'
 import { screen, userEvent } from '@storybook/testing-library'
-import { Checkbox } from './Checkbox'
+import { Checkbox } from '@/components/Checkbox'
 
 export default {
   title: 'Controls/Checkbox',

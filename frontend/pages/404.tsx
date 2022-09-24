@@ -1,7 +1,6 @@
-import Link from 'next/link'
+import NextLink from 'next/link'
 import styled from '@emotion/styled'
-import { Logo } from '@/components/Logo'
-import { Link as _StyledLink } from '@/components/Link'
+import { Link, Logo } from '@/components'
 
 const StyledWrapper = styled.div`
   height: 85vh;
@@ -11,18 +10,18 @@ const StyledWrapper = styled.div`
   justify-content: center;
 `
 
-const StyledLink = styled(_StyledLink)`
+const StyledLink = styled(Link)`
   text-decoration: underline;
   font-size: 3rem;
 `
 
-export default function Error404() {
+export default function Error404(): JSX.Element {
   return (
     <StyledWrapper>
       <Logo>404 - Page Not Found</Logo>
-      <Link href='/' passHref>
+      <NextLink href='/' passHref>
         <StyledLink>Go Home</StyledLink>
-      </Link>
+      </NextLink>
     </StyledWrapper>
   )
 }

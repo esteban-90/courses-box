@@ -1,7 +1,7 @@
 import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 import { expect } from '@storybook/jest'
 import { screen } from '@storybook/testing-library'
-import { Logo } from './Logo'
+import { Logo } from '@/components/Logo'
 
 export default {
   title: 'Content/Logo',

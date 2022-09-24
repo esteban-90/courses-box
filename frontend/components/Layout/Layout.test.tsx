@@ -1,8 +1,9 @@
-import { render } from '@/test-utils'
-import { Layout } from './Layout'
+import userEvent from '@testing-library/user-event'
+import { render, screen, act } from '@/test-utils'
+import { Layout } from '@/components/Layout'
 
 describe('Layout test cases', () => {
-  const child = (
+  const childElement = (
     <>
       <h1>Main article area</h1>
       <p>
@@ -13,16 +14,27 @@ describe('Layout test cases', () => {
   )
 
   it('Render check', () => {
-    const { asFragment } = render(
-      <Layout
-        onThemeToggle={function (): never {
-          throw new Error('Function not implemented.')
-        }}
-        isDark
-      >
-        {child}
-      </Layout>
-    )
+    const parentElement = <Layout>{childElement}</Layout>
+    const { asFragment } = render(parentElement)
+
     expect(asFragment()).toMatchSnapshot()
+  })
+
+  it('Theme toggle check', async () => {
+    localStorage.setItem('courses-box-theme', 'light')
+    void (window.matchMedia as jest.Mock).mockReturnValue({ matches: true })
+
+    const parentElement = <Layout>{childElement}</Layout>
+    render(parentElement)
+
+    const themeToggler = screen.getByRole('button', { name: 'Moon' })
+    expect(themeToggler).toBeInTheDocument()
+
+    await act(async () => {
+      await userEvent.click(themeToggler)
+    })
+
+    expect(localStorage.getItem('courses-box-theme')).toBe('dark')
+    expect(screen.getByRole('button', { name: 'Sun' })).toBeInTheDocument()
   })
 })

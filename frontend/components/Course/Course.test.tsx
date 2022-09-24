@@ -1,9 +1,24 @@
 import { render } from '@/test-utils'
-import { Course } from './Course'
+import { Course } from '@/components/Course'
 
 describe('Course test cases', () => {
   it('Render check', () => {
-    const { asFragment } = render(
+    const childElement = (
+      <>
+        <p>
+          React is the most popular library for building frontend web applicartions. Step-by-step by dividing into all
+          the basics, I&apos;ll introduce you to advanced concepts as well. We&apos;ll build the minesweeper application
+          from scratch:
+        </p>
+        <ul>
+          <li>setup of the development environment</li>
+          <li>configuration of the React JS app</li>
+          <li>basic algorithms of Minesweeper</li>
+        </ul>
+      </>
+    )
+
+    const parentElement = (
       <Course
         heading='Hands-On React. Build advanced React JS Frontend with expert'
         link='hands-on-reactjs'
@@ -14,21 +29,11 @@ describe('Course test cases', () => {
           src: '/covers/hands-on_reactjs_cover.png',
         }}
       >
-        <>
-          <p>
-            React is the most popular library for building frontend web applicartions. Step-by-step by dividing into all
-            the basics, I&apos;ll introduce you to advanced concepts as well. We&apos;ll build the minesweeper
-            application from scratch:
-          </p>
-          <ul>
-            <li>setup of the development environment</li>
-            <li>configuration of the React JS app</li>
-            <li>basic algorithms of Minesweeper</li>
-          </ul>
-        </>
+        {childElement}
       </Course>
     )
 
+    const { asFragment } = render(parentElement)
     expect(asFragment()).toMatchSnapshot()
   })
 })

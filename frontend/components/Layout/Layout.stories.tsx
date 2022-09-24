@@ -1,7 +1,7 @@
 import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 import { expect } from '@storybook/jest'
 import { screen } from '@storybook/testing-library'
-import { Layout } from './Layout'
+import { Layout } from '@/components/Layout'
 
 export default {
   title: 'Content/Layout',

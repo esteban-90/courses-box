@@ -1,9 +1,9 @@
 import { render } from '@/test-utils'
-import { Tile } from './Tile'
+import { Tile } from '@/components/Tile'
 
 describe('Tile test cases', () => {
   it('Render check', () => {
-    const { asFragment } = render(
+    const element = (
       <Tile heading='Lorem ipsum dolor sit amet.'>
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium rem blanditiis exercitationem non tempora
         corrupti ratione distinctio aliquid id impedit eligendi libero expedita mollitia adipisci sint deleniti, beatae
@@ -11,6 +11,7 @@ describe('Tile test cases', () => {
       </Tile>
     )
 
+    const { asFragment } = render(element)
     expect(asFragment()).toMatchSnapshot()
   })
 })

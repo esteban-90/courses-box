@@ -1,20 +1,22 @@
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@/test-utils'
-import { Button } from './Button'
+import { Button } from '@/components/Button'
 
 describe('Button test cases', () => {
   it('Render check', () => {
-    const onClick = jest.fn()
-    const { asFragment } = render(<Button onClick={onClick}>Click here</Button>)
+    const clickHandler = jest.fn()
+    const element = <Button onClick={clickHandler}>Click here</Button>
+    const { asFragment } = render(element)
 
     expect(asFragment()).toMatchSnapshot()
   })
 
   it('Check onClick callback', async () => {
-    const onClick = jest.fn()
+    const clickHandler = jest.fn()
+    const element = <Button onClick={clickHandler}>Click here</Button>
 
-    render(<Button onClick={onClick}>Click here</Button>)
+    render(element)
     await userEvent.click(screen.getByRole('button'))
-    expect(onClick).toHaveBeenCalled()
+    expect(clickHandler).toHaveBeenCalled()
   })
 })

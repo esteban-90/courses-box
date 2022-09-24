@@ -1,28 +1,31 @@
 import { ChangeEventHandler } from 'react'
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@/test-utils'
-import { Input } from './Input'
+import { Input } from '@/components/Input'
 
 describe('Input test cases', () => {
   it('Render check', () => {
-    const onChange = jest.fn() as unknown as ChangeEventHandler<HTMLInputElement>
-    const { asFragment } = render(<Input label='Label' placeholder='Placeholder' onChange={onChange} />)
+    const changeHandler = jest.fn() as unknown as ChangeEventHandler<HTMLInputElement>
+    const element = <Input label='Label' placeholder='Placeholder' onChange={changeHandler} />
+    const { asFragment } = render(element)
 
     expect(asFragment()).toMatchSnapshot()
   })
 
   it('Render check with icon', () => {
-    const onChange = jest.fn() as unknown as ChangeEventHandler<HTMLInputElement>
-    const { asFragment } = render(<Input label='Label' placeholder='Placeholder' icon='Search' onChange={onChange} />)
+    const changeHandler = jest.fn() as unknown as ChangeEventHandler<HTMLInputElement>
+    const element = <Input label='Label' placeholder='Placeholder' icon='Search' onChange={changeHandler} />
+    const { asFragment } = render(element)
 
     expect(asFragment()).toMatchSnapshot()
   })
 
   it('Check onChange callback', async () => {
-    const onChange = jest.fn() as unknown as ChangeEventHandler<HTMLInputElement>
+    const changeHandler = jest.fn() as unknown as ChangeEventHandler<HTMLInputElement>
+    const element = <Input label='Label' placeholder='Placeholder' onChange={changeHandler} />
 
-    render(<Input label='Label' placeholder='Placeholder' onChange={onChange} />)
+    render(element)
     await userEvent.type(screen.getByRole('textbox'), 'String')
-    expect(onChange).toHaveBeenCalledTimes(6)
+    expect(changeHandler).toHaveBeenCalledTimes(6)
   })
 })

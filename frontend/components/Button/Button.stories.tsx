@@ -1,7 +1,7 @@
 import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 // import { expect } from '@storybook/jest'
 import { screen, userEvent } from '@storybook/testing-library'
-import { Button } from './Button'
+import { Button } from '@/components/Button'
 
 export default {
   title: 'Controls/Button',

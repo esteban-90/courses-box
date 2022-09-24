@@ -1,9 +1,10 @@
 import { render } from '@/test-utils'
-import { Icon } from './Icon'
+import { Icon } from '@/components/Icon'
 
 describe('Icon test cases', () => {
   it('Render check', () => {
-    const { asFragment } = render(<Icon name='Moon' />)
+    const element = <Icon name='Moon' />
+    const { asFragment } = render(element)
 
     expect(asFragment()).toMatchSnapshot()
   })

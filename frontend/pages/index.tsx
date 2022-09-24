@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styled from '@emotion/styled'
-import { Course } from '@/components/Course'
+import { Course } from '@/components'
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const StyledWrapper = styled.div`
   margin: 2vh 1vw;
 `
 
-const Home: NextPage = () => {
+const Home: NextPage = (): JSX.Element => {
   return (
     <>
       <Head>
