@@ -1,63 +1,53 @@
 import type { NextPage } from 'next'
 import NextLink from 'next/link'
 import styled from '@emotion/styled'
-import { useForm } from 'react-hook-form'
-import { Button, Input, Feedback, Link, CenteredTile } from '@/components'
-
-type LoginFormData = {
-  identifier: string
-  password: string
-}
+import { Button, Input, ConditionalFeedback, Link, CenteredTile } from '@/components'
+import { useLoginForm } from '@/hooks'
+import { loginFormData } from '@/types'
 
 const StyledInput = styled(Input)`
   margin-bottom: 1rem;
 `
 
 const Login: NextPage = (): JSX.Element => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>()
+  const { handleSubmit, emailField, emailError, passwordField, passwordError } = useLoginForm()
 
-  const submitHandler = (data: LoginFormData) => {
+  const submitHandler = (data: loginFormData) => {
     console.log(data)
   }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)}>
+    <form onSubmit={handleSubmit(submitHandler)} noValidate data-testid='loginForm'>
       <CenteredTile heading='Login Page'>
         <StyledInput
-          label='Identifier'
-          placeholder='username or email'
-          height={8}
-          {...register('identifier', {
-            required: 'This field is required',
-            minLength: { value: 6, message: 'Too short, min length: 6' },
-          })}
-          feedback={errors.identifier ? <Feedback>{errors.identifier?.message}</Feedback> : <>&nbsp;</>}
+          label='Your email:'
+          type='email'
+          placeholder='user@example.com'
+          {...emailField}
+          feedback={<ConditionalFeedback>{emailError}</ConditionalFeedback>}
+          data-testid='loginEmail'
         />
 
         <StyledInput
-          label='Password'
+          label='Your password:'
           type='password'
-          placeholder='password'
-          height={8}
-          role='textbox'
-          {...register('password', {
-            required: 'This field is required',
-            minLength: { value: 8, message: 'Too short, min length: 8' },
-          })}
-          feedback={errors.password ? <Feedback>{errors.password?.message}</Feedback> : <>&nbsp;</>}
+          placeholder='********'
+          minLength={8}
+          maxLength={10}
+          {...passwordField}
+          feedback={<ConditionalFeedback>{passwordError}</ConditionalFeedback>}
+          data-testid='loginPassword'
         />
 
-        <Button type='submit'>Login</Button>
+        <Button type='submit' style={{ marginTop: '1rem' }}>
+          Enter
+        </Button>
 
-        <h3>
-          <NextLink href='/registration' passHref>
-            <Link underline>Create account</Link>
-          </NextLink>
-        </h3>
+        <NextLink href='/registration' passHref>
+          <Link underline style={{ marginTop: '1rem', fontWeight: 'bold' }}>
+            Create your account
+          </Link>
+        </NextLink>
       </CenteredTile>
     </form>
   )
