@@ -1,11 +1,11 @@
 import type { NextPage } from 'next'
 import NextLink from 'next/link'
 import styled from '@emotion/styled'
-import { Button, Input, Feedback, Link, CenteredTile } from '@/components'
+import { Button, Input, ConditionalFeedback, Link, CenteredTile } from '@/components'
 import { useLoginForm } from '@/hooks'
 import { loginFormData } from '@/types'
 
-const LoginInput = styled(Input)`
+const StyledInput = styled(Input)`
   margin-bottom: 1rem;
 `
 
@@ -17,32 +17,37 @@ const Login: NextPage = (): JSX.Element => {
   }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)} data-testid='login-form'>
+    <form onSubmit={handleSubmit(submitHandler)} noValidate data-testid='loginForm'>
       <CenteredTile heading='Login Page'>
-        <LoginInput
-          label='Email'
+        <StyledInput
+          label='Your email:'
           type='email'
-          placeholder='username or email'
+          placeholder='user@example.com'
           {...emailField}
-          feedback={emailError ? <Feedback>{emailError}</Feedback> : <>&nbsp;</>}
+          feedback={<ConditionalFeedback>{emailError}</ConditionalFeedback>}
+          data-testid='loginEmail'
         />
 
-        <LoginInput
-          label='Password'
+        <StyledInput
+          label='Your password:'
           type='password'
-          placeholder='password'
-          role='textbox'
+          placeholder='********'
+          minLength={8}
+          maxLength={10}
           {...passwordField}
-          feedback={passwordError ? <Feedback>{passwordError}</Feedback> : <>&nbsp;</>}
+          feedback={<ConditionalFeedback>{passwordError}</ConditionalFeedback>}
+          data-testid='loginPassword'
         />
 
-        <Button type='submit'>Login</Button>
+        <Button type='submit' style={{ marginTop: '1rem' }}>
+          Enter
+        </Button>
 
-        <h3>
-          <NextLink href='/registration' passHref>
-            <Link underline>Create account</Link>
-          </NextLink>
-        </h3>
+        <NextLink href='/registration' passHref>
+          <Link underline style={{ marginTop: '1rem', fontWeight: 'bold' }}>
+            Create your account
+          </Link>
+        </NextLink>
       </CenteredTile>
     </form>
   )

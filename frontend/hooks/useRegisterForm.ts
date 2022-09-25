@@ -1,28 +1,29 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { loginFormData } from '@/types'
-import { loginSchema } from '@/validations'
+import { registerFormData } from '@/types'
+import { registerSchema } from '@/validations'
 
-const loginValues: loginFormData = {
+const registerValues: registerFormData = {
   email: '',
   password: '',
+  passwordConfirmation: '',
 }
 
-export const useLoginForm = () => {
+export const useRegisterForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
     reset,
-  } = useForm<loginFormData>({
-    defaultValues: loginValues,
-    resolver: yupResolver(loginSchema),
+  } = useForm<registerFormData>({
+    defaultValues: registerValues,
+    resolver: yupResolver(registerSchema),
   })
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset(loginValues, {
+      reset(registerValues, {
         keepDefaultValues: true,
         keepDirty: false,
         keepTouched: false,
@@ -37,9 +38,13 @@ export const useLoginForm = () => {
     emailField: register('email'),
     /** Props for password field */
     passwordField: register('password'),
+    /** Props for password confirmation field */
+    passwordConfirmationField: register('passwordConfirmation'),
     /** Message for email field error */
     emailError: errors.email?.message,
     /** Message for password error */
     passwordError: errors.password?.message,
+    /** Message for password confirmation error */
+    passwordConfirmationError: errors.passwordConfirmation?.message,
   }
 }

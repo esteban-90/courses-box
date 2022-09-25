@@ -99,6 +99,13 @@ export type TileProps = {
 }
 
 export type loginFormData = {
+  /** User's email */
   email: string
+  /** User's password */
   password: string
 }
+
+export type registerFormData = {
+  /** Password confirmation */
+  passwordConfirmation: string
+} & loginFormData

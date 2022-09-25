@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Login Page test cases Client validation check 1`] = `
+exports[`Register Page test cases Client validation check 1`] = `
 <span
   class="css-1reg724"
   role="alert"
@@ -9,7 +9,7 @@ exports[`Login Page test cases Client validation check 1`] = `
 </span>
 `;
 
-exports[`Login Page test cases Client validation check 2`] = `
+exports[`Register Page test cases Client validation check 2`] = `
 <span
   class="css-1reg724"
   role="alert"
@@ -22,11 +22,23 @@ exports[`Login Page test cases Client validation check 2`] = `
 </span>
 `;
 
-exports[`Login Page test cases Render check 1`] = `
+exports[`Register Page test cases Client validation check 3`] = `
+<span
+  class="css-1reg724"
+  role="alert"
+>
+  <span
+    class="css-xjluvf"
+  >
+    Passwords must match
+  </span>
+</span>
+`;
+
+exports[`Register Page test cases Render check 1`] = `
 <div>
   <form
-    data-testid="loginForm"
-    novalidate=""
+    data-testid="registerForm"
   >
     <div
       class="css-gbwc6v"
@@ -35,7 +47,7 @@ exports[`Login Page test cases Render check 1`] = `
         class="css-1c469nw"
       >
         <h2>
-          Login Page
+          Register Page
         </h2>
         <label
           class="css-fjegpl"
@@ -52,7 +64,7 @@ exports[`Login Page test cases Render check 1`] = `
           >
             <input
               class="css-1cvyunr"
-              data-testid="loginEmail"
+              data-testid="registerEmail"
               name="email"
               placeholder="user@example.com"
               type="email"
@@ -80,10 +92,38 @@ exports[`Login Page test cases Render check 1`] = `
           >
             <input
               class="css-1cvyunr"
-              data-testid="loginPassword"
+              data-testid="registerPassword"
               maxlength="10"
-              minlength="8"
               name="password"
+              placeholder="********"
+              type="password"
+            />
+          </div>
+          <span
+            class="css-1reg724"
+            role="alert"
+          >
+             
+          </span>
+        </label>
+        <label
+          class="css-fjegpl"
+          height="7"
+          width="20"
+        >
+          <span
+            class="css-1grri41"
+          >
+            Confirm your password:
+          </span>
+          <div
+            class="css-11gjszk"
+          >
+            <input
+              class="css-1cvyunr"
+              data-testid="registerPasswordConfirmation"
+              maxlength="10"
+              name="passwordConfirmation"
               placeholder="********"
               type="password"
             />
@@ -100,14 +140,14 @@ exports[`Login Page test cases Render check 1`] = `
           style="margin-top: 1rem;"
           type="submit"
         >
-          Enter
+          Done
         </button>
         <a
           class="css-1ghpz66"
-          href="/registration"
+          href="/login"
           style="margin-top: 1rem; font-weight: bold;"
         >
-          Create your account
+          Access your account
         </a>
       </section>
     </div>
