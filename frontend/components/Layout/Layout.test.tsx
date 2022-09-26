@@ -3,7 +3,7 @@ import { render, screen, act } from '@/test-utils'
 import { Layout } from '@/components/Layout'
 
 describe('Layout test cases', () => {
-  const childElement = (
+  const layoutContent = (
     <>
       <h1>Main article area</h1>
       <p>
@@ -13,27 +13,22 @@ describe('Layout test cases', () => {
     </>
   )
 
-  it('Render check', () => {
-    const parentElement = <Layout>{childElement}</Layout>
-    const { asFragment } = render(parentElement)
+  const layoutElement = <Layout>{layoutContent}</Layout>
 
+  it('Render check', () => {
+    const { asFragment } = render(layoutElement)
     expect(asFragment()).toMatchSnapshot()
   })
 
   it('Theme toggle check', async () => {
     localStorage.setItem('courses-box-theme', 'light')
     void (window.matchMedia as jest.Mock).mockReturnValue({ matches: true })
-
-    const parentElement = <Layout>{childElement}</Layout>
-    render(parentElement)
+    render(layoutElement)
 
     const themeToggler = screen.getByRole('button', { name: 'Moon' })
     expect(themeToggler).toBeInTheDocument()
 
-    await act(async () => {
-      await userEvent.click(themeToggler)
-    })
-
+    await act(async () => await userEvent.click(themeToggler))
     expect(localStorage.getItem('courses-box-theme')).toBe('dark')
     expect(screen.getByRole('button', { name: 'Sun' })).toBeInTheDocument()
   })

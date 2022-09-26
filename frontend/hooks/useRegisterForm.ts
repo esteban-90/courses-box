@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { registerFormData } from '@/types'
+import { RegisterData } from '@/types'
 import { registerSchema } from '@/validations'
 
-const registerValues: registerFormData = {
+const registerValues: RegisterData = {
   email: '',
+  username: '',
   password: '',
   passwordConfirmation: '',
 }
@@ -16,7 +17,7 @@ export const useRegisterForm = () => {
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
     reset,
-  } = useForm<registerFormData>({
+  } = useForm<RegisterData>({
     defaultValues: registerValues,
     resolver: yupResolver(registerSchema),
   })
@@ -27,24 +28,26 @@ export const useRegisterForm = () => {
         keepDefaultValues: true,
         keepDirty: false,
         keepTouched: false,
+        keepErrors: false,
       })
     }
   }, [isSubmitSuccessful, reset])
 
   return {
-    /** Submit handler */
     handleSubmit,
-    /** Props for email field */
-    emailField: register('email'),
-    /** Props for password field */
-    passwordField: register('password'),
-    /** Props for password confirmation field */
-    passwordConfirmationField: register('passwordConfirmation'),
-    /** Message for email field error */
-    emailError: errors.email?.message,
-    /** Message for password error */
-    passwordError: errors.password?.message,
-    /** Message for password confirmation error */
-    passwordConfirmationError: errors.passwordConfirmation?.message,
+
+    fields: {
+      username: register('username'),
+      email: register('email'),
+      password: register('password'),
+      passwordConfirmation: register('passwordConfirmation'),
+    },
+
+    errors: {
+      username: errors.username?.message,
+      email: errors.email?.message,
+      password: errors.password?.message,
+      passwordConfirmation: errors.passwordConfirmation?.message,
+    },
   }
 }

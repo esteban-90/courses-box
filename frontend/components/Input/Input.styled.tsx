@@ -53,7 +53,7 @@ export const Input = styled.input`
   }
 
   &::placeholder {
-    opacity: 0.7;
+    opacity: 0.3;
     color: ${({ theme }) => theme.font.placeholder};
   }
 

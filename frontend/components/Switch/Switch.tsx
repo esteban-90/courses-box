@@ -9,7 +9,7 @@ export const Switch: FC<SwitchProps> = ({ onChange }): JSX.Element => {
   return (
     <Styled.Wrapper>
       <input id={inputId} type='checkbox' onChange={onChange} />
-      <Styled.VisiblePart htmlFor={inputId} data-testid='SwitchVisiblePart' />
+      <Styled.VisiblePart htmlFor={inputId} data-testid='switchVisiblePart' />
     </Styled.Wrapper>
   )
 }

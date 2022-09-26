@@ -14,11 +14,7 @@ exports[`Login Page test cases Client validation check 2`] = `
   class="css-1reg724"
   role="alert"
 >
-  <span
-    class="css-xjluvf"
-  >
-    Password is not strong enough
-  </span>
+   
 </span>
 `;
 
@@ -45,17 +41,16 @@ exports[`Login Page test cases Render check 1`] = `
           <span
             class="css-1grri41"
           >
-            Your email:
+            Your username or email:
           </span>
           <div
             class="css-11gjszk"
           >
             <input
-              class="css-1cvyunr"
-              data-testid="loginEmail"
-              name="email"
-              placeholder="user@example.com"
-              type="email"
+              class="css-1h6wv30"
+              data-testid="loginIdentifier"
+              name="identifier"
+              placeholder="..."
             />
           </div>
           <span
@@ -79,12 +74,12 @@ exports[`Login Page test cases Render check 1`] = `
             class="css-11gjszk"
           >
             <input
-              class="css-1cvyunr"
+              class="css-1h6wv30"
               data-testid="loginPassword"
               maxlength="10"
               minlength="8"
               name="password"
-              placeholder="********"
+              placeholder="**********"
               type="password"
             />
           </div>

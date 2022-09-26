@@ -11,7 +11,7 @@ exports[`Checkbox test cases Render check 1`] = `
     />
     <label
       class="css-1kzb2zn"
-      data-testid="SwitchVisiblePart"
+      data-testid="switchVisiblePart"
       for="prefix-fffffffbb47d08"
     />
   </label>

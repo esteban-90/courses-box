@@ -10,8 +10,7 @@ export const Course: FC<CourseProps> = ({ heading, image, link, children }): JSX
       <NextLink href={link} passHref>
         <Styled.Link>
           <h2>{heading}</h2>
-          {/*eslint-disable-next-line jsx-a11y/alt-text*/}
-          <NextImage {...image} />
+          <NextImage {...image} alt={heading} />
           {children}
         </Styled.Link>
       </NextLink>

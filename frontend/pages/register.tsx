@@ -3,56 +3,60 @@ import NextLink from 'next/link'
 import styled from '@emotion/styled'
 import { Button, Input, ConditionalFeedback, Link, CenteredTile } from '@/components'
 import { useRegisterForm } from '@/hooks'
-import { registerFormData } from '@/types'
+import { RegisterData } from '@/types'
 
 const StyledInput = styled(Input)`
   margin-bottom: 1rem;
 `
 
 const Register: NextPage = (): JSX.Element => {
-  const {
-    handleSubmit,
-    emailField,
-    passwordField,
-    passwordConfirmationField,
-    emailError,
-    passwordError,
-    passwordConfirmationError,
-  } = useRegisterForm()
+  const { handleSubmit, fields, errors } = useRegisterForm()
 
-  const submitHandler = (data: registerFormData) => {
+  const submitHandler = (data: RegisterData) => {
     console.log(data)
   }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)} data-testid='registerForm'>
+    <form onSubmit={handleSubmit(submitHandler)} noValidate data-testid='registerForm'>
       <CenteredTile heading='Register Page'>
+        <StyledInput
+          label='Your username:'
+          placeholder='...'
+          minLength={5}
+          maxLength={10}
+          {...fields.username}
+          feedback={<ConditionalFeedback>{errors.username}</ConditionalFeedback>}
+          data-testid='registerUsername'
+        />
+
         <StyledInput
           label='Your email:'
           type='email'
-          placeholder='user@example.com'
-          {...emailField}
-          feedback={<ConditionalFeedback>{emailError}</ConditionalFeedback>}
+          placeholder='...'
+          {...fields.email}
+          feedback={<ConditionalFeedback>{errors.email}</ConditionalFeedback>}
           data-testid='registerEmail'
         />
 
         <StyledInput
           label='Your password:'
           type='password'
-          placeholder='********'
+          placeholder='**********'
+          minLength={8}
           maxLength={10}
-          {...passwordField}
-          feedback={<ConditionalFeedback>{passwordError}</ConditionalFeedback>}
+          {...fields.password}
+          feedback={<ConditionalFeedback>{errors.password}</ConditionalFeedback>}
           data-testid='registerPassword'
         />
 
         <StyledInput
           label='Confirm your password:'
           type='password'
-          placeholder='********'
+          placeholder='**********'
+          minLength={8}
           maxLength={10}
-          {...passwordConfirmationField}
-          feedback={<ConditionalFeedback>{passwordConfirmationError}</ConditionalFeedback>}
+          {...fields.passwordConfirmation}
+          feedback={<ConditionalFeedback>{errors.passwordConfirmation}</ConditionalFeedback>}
           data-testid='registerPasswordConfirmation'
         />
 
