@@ -10,7 +10,7 @@ export default {
 
 export const BasicSwitch: ComponentStoryObj<typeof Switch> = {
   async play({ args }) {
-    await userEvent.click(screen.getByTestId('SwitchVisiblePart'))
+    await userEvent.click(screen.getByTestId('switchVisiblePart'))
     // @todo: https://github.com/storybookjs/storybook/issues/16941
     // await expect(args.onChange).toHaveBeenCalled()
   },
