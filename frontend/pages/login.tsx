@@ -3,16 +3,16 @@ import NextLink from 'next/link'
 import styled from '@emotion/styled'
 import { Button, Input, ConditionalFeedback, Link, CenteredTile } from '@/components'
 import { useLoginForm } from '@/hooks'
-import { loginFormData } from '@/types'
+import { LoginData } from '@/types'
 
 const StyledInput = styled(Input)`
   margin-bottom: 1rem;
 `
 
 const Login: NextPage = (): JSX.Element => {
-  const { handleSubmit, emailField, emailError, passwordField, passwordError } = useLoginForm()
+  const { handleSubmit, fields, errors } = useLoginForm()
 
-  const submitHandler = (data: loginFormData) => {
+  const submitHandler = (data: LoginData) => {
     console.log(data)
   }
 
@@ -20,22 +20,21 @@ const Login: NextPage = (): JSX.Element => {
     <form onSubmit={handleSubmit(submitHandler)} noValidate data-testid='loginForm'>
       <CenteredTile heading='Login Page'>
         <StyledInput
-          label='Your email:'
-          type='email'
-          placeholder='user@example.com'
-          {...emailField}
-          feedback={<ConditionalFeedback>{emailError}</ConditionalFeedback>}
-          data-testid='loginEmail'
+          label='Your username or email:'
+          placeholder='...'
+          {...fields.identifier}
+          feedback={<ConditionalFeedback>{errors.identifier}</ConditionalFeedback>}
+          data-testid='loginIdentifier'
         />
 
         <StyledInput
           label='Your password:'
           type='password'
-          placeholder='********'
+          placeholder='**********'
           minLength={8}
           maxLength={10}
-          {...passwordField}
-          feedback={<ConditionalFeedback>{passwordError}</ConditionalFeedback>}
+          {...fields.password}
+          feedback={<ConditionalFeedback>{errors.password}</ConditionalFeedback>}
           data-testid='loginPassword'
         />
 

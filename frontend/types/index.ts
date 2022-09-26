@@ -1,5 +1,6 @@
 import { MouseEvent, ChangeEvent, ChangeEventHandler, InputHTMLAttributes, ReactNode, SVGProps } from 'react'
 import { ImageProps } from 'next/image'
+import { SerializedError } from '@reduxjs/toolkit'
 import * as Icons from '@/components/Icon/Icons'
 
 export type ButtonProps = {
@@ -98,14 +99,34 @@ export type TileProps = {
   children: ReactNode
 }
 
-export type loginFormData = {
-  /** User's email */
-  email: string
+export type LoginData = {
+  /** User's email or username */
+  identifier: string
   /** User's password */
   password: string
 }
 
-export type registerFormData = {
+export type RegisterData = {
+  /** User's email */
+  email: string
+  /** User's username */
+  username: string
+  /** User's password */
+  password: string
   /** Password confirmation */
   passwordConfirmation: string
-} & loginFormData
+}
+
+export type UserState = {
+  /** JWT token */
+  jwt: string
+  /** Request state */
+  requestState?: 'pending' | 'fullfilled' | 'rejected'
+  /** Error */
+  error?: SerializedError
+} & Omit<RegisterData, 'password' | 'passwordConfirmation'>
+
+export type UserPayload = {
+  jwt: string
+  user: Omit<RegisterData, 'password' | 'passwordConfirmation'>
+}

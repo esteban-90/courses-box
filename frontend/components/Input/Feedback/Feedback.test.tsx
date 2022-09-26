@@ -3,15 +3,15 @@ import { Feedback } from '@/components/Input'
 
 describe('Feedback test cases', () => {
   it('Render check for valid', () => {
-    const element = <Feedback isValid>Looks good!</Feedback>
-    const { asFragment } = render(element)
+    const validFeedbackElement = <Feedback isValid>Looks good!</Feedback>
+    const { asFragment } = render(validFeedbackElement)
 
     expect(asFragment()).toMatchSnapshot()
   })
 
   it('Render check for invalid', () => {
-    const element = <Feedback>Please provide a valid value</Feedback>
-    const { asFragment } = render(element)
+    const invalidFeedbackElement = <Feedback>Please provide a valid value</Feedback>
+    const { asFragment } = render(invalidFeedbackElement)
 
     expect(asFragment()).toMatchSnapshot()
   })

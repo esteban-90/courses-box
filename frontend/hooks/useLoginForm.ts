@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { loginFormData } from '@/types'
+import { LoginData } from '@/types'
 import { loginSchema } from '@/validations'
 
-const loginValues: loginFormData = {
-  email: '',
+const loginValues: LoginData = {
+  identifier: '',
   password: '',
 }
 
@@ -15,7 +15,7 @@ export const useLoginForm = () => {
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
     reset,
-  } = useForm<loginFormData>({
+  } = useForm<LoginData>({
     defaultValues: loginValues,
     resolver: yupResolver(loginSchema),
   })
@@ -26,20 +26,22 @@ export const useLoginForm = () => {
         keepDefaultValues: true,
         keepDirty: false,
         keepTouched: false,
+        keepErrors: false,
       })
     }
   }, [isSubmitSuccessful, reset])
 
   return {
-    /** Submit handler */
     handleSubmit,
-    /** Props for email field */
-    emailField: register('email'),
-    /** Props for password field */
-    passwordField: register('password'),
-    /** Message for email field error */
-    emailError: errors.email?.message,
-    /** Message for password error */
-    passwordError: errors.password?.message,
+
+    fields: {
+      identifier: register('identifier'),
+      password: register('password'),
+    },
+
+    errors: {
+      identifier: errors.identifier?.message,
+      password: errors.password?.message,
+    },
   }
 }

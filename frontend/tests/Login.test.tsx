@@ -8,7 +8,7 @@ describe('Login Page test cases', () => {
     const loginForm = screen.getByTestId('loginForm')
 
     expect(container).toMatchSnapshot()
-    expect(loginForm).toHaveFormValues({ email: '', password: '' })
+    expect(loginForm).toHaveFormValues({ identifier: '', password: '' })
   })
 
   it('Client validation check', async () => {
@@ -17,36 +17,25 @@ describe('Login Page test cases', () => {
     const submitButton = screen.getByRole('button', { name: 'Enter' })
     await act(async () => await userEvent.click(submitButton))
 
-    const requiredEmailFeedback = screen.getByText('Email is required')
+    const requiredIdentifierFeedback = screen.getByText('Identifier is required')
     const requiredPasswordFeedback = screen.getByText('Password is required')
 
-    expect(requiredEmailFeedback).toBeInTheDocument()
+    expect(requiredIdentifierFeedback).toBeInTheDocument()
     expect(requiredPasswordFeedback).toBeInTheDocument()
 
-    const emailField = screen.getByTestId('loginEmail')
+    const identifierField = screen.getByTestId('loginIdentifier')
     const passwordField = screen.getByTestId('loginPassword')
 
     await act(async () => {
-      await userEvent.type(emailField, 'test')
-      await userEvent.type(passwordField, 'test')
-    })
-
-    const invalidEmailFeedback = screen.getByText('Email is not valid')
-    const invalidPasswordFeedback = screen.getByText('Password is not strong enough')
-
-    expect(invalidEmailFeedback).toBeInTheDocument()
-    expect(invalidPasswordFeedback).toBeInTheDocument()
-
-    await act(async () => {
-      await userEvent.type(emailField, 'test@example.com')
+      await userEvent.type(identifierField, 'test@example.com')
       await userEvent.type(passwordField, 'Test1234*')
     })
 
     const validFeedbacks = screen.getAllByRole('alert')
-    const [emailValidFeedback, passwordValidFeedback] = validFeedbacks
+    const [identifierValidFeedback, passwordValidFeedback] = validFeedbacks
 
     expect(validFeedbacks).toHaveLength(2)
-    expect(emailValidFeedback).toMatchSnapshot()
+    expect(identifierValidFeedback).toMatchSnapshot()
     expect(passwordValidFeedback).toMatchSnapshot()
   })
 })

@@ -3,7 +3,7 @@ import { Course } from '@/components/Course'
 
 describe('Course test cases', () => {
   it('Render check', () => {
-    const childElement = (
+    const courseContent = (
       <>
         <p>
           React is the most popular library for building frontend web applicartions. Step-by-step by dividing into all
@@ -18,7 +18,7 @@ describe('Course test cases', () => {
       </>
     )
 
-    const parentElement = (
+    const courseElement = (
       <Course
         heading='Hands-On React. Build advanced React JS Frontend with expert'
         link='hands-on-reactjs'
@@ -29,11 +29,11 @@ describe('Course test cases', () => {
           src: '/covers/hands-on_reactjs_cover.png',
         }}
       >
-        {childElement}
+        {courseContent}
       </Course>
     )
 
-    const { asFragment } = render(parentElement)
+    const { asFragment } = render(courseElement)
     expect(asFragment()).toMatchSnapshot()
   })
 })
