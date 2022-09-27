@@ -17,14 +17,15 @@ const Login: NextPage = (): JSX.Element => {
   }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)} noValidate data-testid='loginForm'>
+    <form onSubmit={handleSubmit(submitHandler)} noValidate data-testid='form'>
       <CenteredTile heading='Login Page'>
         <StyledInput
           label='Your username or email:'
           placeholder='...'
           {...fields.identifier}
           feedback={<ConditionalFeedback>{errors.identifier}</ConditionalFeedback>}
-          data-testid='loginIdentifier'
+          spellCheck={false}
+          data-testid='identifier'
         />
 
         <StyledInput
@@ -35,7 +36,7 @@ const Login: NextPage = (): JSX.Element => {
           maxLength={10}
           {...fields.password}
           feedback={<ConditionalFeedback>{errors.password}</ConditionalFeedback>}
-          data-testid='loginPassword'
+          data-testid='password'
         />
 
         <Button type='submit' style={{ marginTop: '1rem' }}>

@@ -1,11 +1,12 @@
 import userEvent from '@testing-library/user-event'
 import { render, screen, act } from '@/test-utils'
 import Register from '@/pages/register'
+import { messages } from '@/validations'
 
 describe('Register Page test cases', () => {
   it('Render check', () => {
     const { container } = render(<Register />)
-    const registerForm = screen.getByTestId('registerForm')
+    const registerForm = screen.getByTestId('form')
 
     expect(container).toMatchSnapshot()
     expect(registerForm).toHaveFormValues({ email: '', password: '', passwordConfirmation: '' })
@@ -17,18 +18,13 @@ describe('Register Page test cases', () => {
     const submitButton = screen.getByRole('button', { name: 'Done' })
     await act(async () => await userEvent.click(submitButton))
 
-    const requiredUsernameFeedback = screen.getByText('Username is required')
-    const requiredEmailFeedback = screen.getByText('Email is required')
-    const requiredPasswordFeedback = screen.getByText('Password is required')
+    const requiredFeedbacks = screen.getAllByText(messages.required.field)
+    expect(requiredFeedbacks).toHaveLength(3)
 
-    expect(requiredUsernameFeedback).toBeInTheDocument()
-    expect(requiredEmailFeedback).toBeInTheDocument()
-    expect(requiredPasswordFeedback).toBeInTheDocument()
-
-    const usernameField = screen.getByTestId('registerUsername')
-    const emailField = screen.getByTestId('registerEmail')
-    const passwordField = screen.getByTestId('registerPassword')
-    const passConfirmField = screen.getByTestId('registerPasswordConfirmation')
+    const usernameField = screen.getByTestId('username')
+    const emailField = screen.getByTestId('email')
+    const passwordField = screen.getByTestId('password')
+    const passConfirmField = screen.getByTestId('passwordConfirmation')
 
     await act(async () => {
       await userEvent.type(usernameField, 'test')
@@ -36,9 +32,9 @@ describe('Register Page test cases', () => {
       await userEvent.type(passwordField, 'test')
     })
 
-    const invalidUsernameFeedback = screen.getByText('Username is not valid')
-    const invalidEmailFeedback = screen.getByText('Email is not valid')
-    const invalidPasswordFeedback = screen.getByText('Password is not strong enough')
+    const invalidUsernameFeedback = screen.getByText(messages.invalid.username)
+    const invalidEmailFeedback = screen.getByText(messages.invalid.email)
+    const invalidPasswordFeedback = screen.getByText(messages.invalid.password)
 
     expect(invalidUsernameFeedback).toBeInTheDocument()
     expect(invalidEmailFeedback).toBeInTheDocument()
@@ -49,14 +45,14 @@ describe('Register Page test cases', () => {
       await userEvent.type(passConfirmField, 'jest')
     })
 
-    const invalidPassConfirmFeedback = screen.getByText('Passwords must match')
+    const invalidPassConfirmFeedback = screen.getByText(messages.invalid.passwordConfirmation)
     expect(invalidPassConfirmFeedback).toBeInTheDocument()
 
     await act(async () => {
-      await userEvent.type(usernameField, 'mytest1234')
+      await userEvent.type(usernameField, 'Mytest12')
       await userEvent.type(emailField, 'test@example.com')
-      await userEvent.type(passwordField, 'Test1234*')
-      await userEvent.type(passConfirmField, 'Test1234*')
+      await userEvent.type(passwordField, 'Test1234**')
+      await userEvent.type(passConfirmField, 'Test1234**')
     })
 
     const validFeedbacks = screen.getAllByRole('alert')

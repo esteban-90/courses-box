@@ -17,25 +17,26 @@ const Register: NextPage = (): JSX.Element => {
   }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)} noValidate data-testid='registerForm'>
+    <form onSubmit={handleSubmit(submitHandler)} noValidate data-testid='form'>
       <CenteredTile heading='Register Page'>
         <StyledInput
           label='Your username:'
           placeholder='...'
           minLength={5}
-          maxLength={10}
+          maxLength={8}
           {...fields.username}
           feedback={<ConditionalFeedback>{errors.username}</ConditionalFeedback>}
-          data-testid='registerUsername'
+          spellCheck={false}
+          data-testid='username'
         />
 
         <StyledInput
           label='Your email:'
           type='email'
-          placeholder='...'
+          placeholder='user@example.com'
           {...fields.email}
           feedback={<ConditionalFeedback>{errors.email}</ConditionalFeedback>}
-          data-testid='registerEmail'
+          data-testid='email'
         />
 
         <StyledInput
@@ -46,7 +47,7 @@ const Register: NextPage = (): JSX.Element => {
           maxLength={10}
           {...fields.password}
           feedback={<ConditionalFeedback>{errors.password}</ConditionalFeedback>}
-          data-testid='registerPassword'
+          data-testid='password'
         />
 
         <StyledInput
@@ -57,7 +58,7 @@ const Register: NextPage = (): JSX.Element => {
           maxLength={10}
           {...fields.passwordConfirmation}
           feedback={<ConditionalFeedback>{errors.passwordConfirmation}</ConditionalFeedback>}
-          data-testid='registerPasswordConfirmation'
+          data-testid='passwordConfirmation'
         />
 
         <Button type='submit' style={{ marginTop: '1rem' }}>

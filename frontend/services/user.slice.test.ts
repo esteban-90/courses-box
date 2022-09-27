@@ -1,4 +1,4 @@
-import { actions, reducer, initialState } from '@/services/user.slice'
+import { actions, reducer, initialState, login } from '@/services/user.slice'
 import { mockUser } from '@/mocks'
 
 const updatedState = {
@@ -6,6 +6,13 @@ const updatedState = {
   username: mockUser.user.username,
   email: mockUser.user.email,
 }
+
+const loginData = {
+  identifier: mockUser.user.email,
+  password: mockUser.user.password,
+}
+
+const requestId = 'someId'
 
 describe('User slice test cases', () => {
   describe('Update state actions', () => {
@@ -27,6 +34,23 @@ describe('User slice test cases', () => {
 
       expect(stateWithUpdatedValues).toEqual(updatedState)
       expect(reducer(stateWithUpdatedValues, actions.clear())).toEqual(initialState)
+    })
+  })
+
+  describe('Login state flow', () => {
+    it('should set the request state to pending', () => {
+      expect(
+        reducer(
+          {
+            ...initialState,
+            error: { message: 'Rejected' },
+          },
+          login.pending(requestId, loginData)
+        )
+      ).toEqual({
+        ...initialState,
+        requestState: 'pending',
+      })
     })
   })
 })
