@@ -4,6 +4,7 @@ export const mockUser = {
     id: 1,
     username: 'tester123',
     email: 'tester@example.com',
+    password: 'TestPsw12*',
     provider: 'local',
     confirmed: true,
     blocked: false,

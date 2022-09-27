@@ -5,7 +5,11 @@ exports[`Register Page test cases Client validation check 1`] = `
   class="css-1reg724"
   role="alert"
 >
-   
+  <span
+    class="css-xjluvf"
+  >
+    Username is not valid
+  </span>
 </span>
 `;
 
@@ -26,7 +30,7 @@ exports[`Register Page test cases Client validation check 3`] = `
   <span
     class="css-xjluvf"
   >
-    Password is not strong enough
+    Password is not valid
   </span>
 </span>
 `;
@@ -47,7 +51,7 @@ exports[`Register Page test cases Client validation check 4`] = `
 exports[`Register Page test cases Render check 1`] = `
 <div>
   <form
-    data-testid="registerForm"
+    data-testid="form"
     novalidate=""
   >
     <div
@@ -74,11 +78,12 @@ exports[`Register Page test cases Render check 1`] = `
           >
             <input
               class="css-1h6wv30"
-              data-testid="registerUsername"
-              maxlength="10"
+              data-testid="username"
+              maxlength="8"
               minlength="5"
               name="username"
               placeholder="..."
+              spellcheck="false"
             />
           </div>
           <span
@@ -103,7 +108,7 @@ exports[`Register Page test cases Render check 1`] = `
           >
             <input
               class="css-1h6wv30"
-              data-testid="registerEmail"
+              data-testid="email"
               name="email"
               placeholder="..."
               type="email"
@@ -131,7 +136,7 @@ exports[`Register Page test cases Render check 1`] = `
           >
             <input
               class="css-1h6wv30"
-              data-testid="registerPassword"
+              data-testid="password"
               maxlength="10"
               minlength="8"
               name="password"
@@ -161,7 +166,7 @@ exports[`Register Page test cases Render check 1`] = `
           >
             <input
               class="css-1h6wv30"
-              data-testid="registerPasswordConfirmation"
+              data-testid="passwordConfirmation"
               maxlength="10"
               minlength="8"
               name="passwordConfirmation"
