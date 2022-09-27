@@ -110,7 +110,7 @@ exports[`Register Page test cases Render check 1`] = `
               class="css-1h6wv30"
               data-testid="email"
               name="email"
-              placeholder="..."
+              placeholder="user@example.com"
               type="email"
             />
           </div>
