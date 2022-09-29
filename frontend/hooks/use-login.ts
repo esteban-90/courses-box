@@ -9,7 +9,7 @@ const loginValues: LoginData = {
   password: '',
 }
 
-export const useLoginForm = () => {
+export const useLogin = () => {
   const {
     register,
     handleSubmit,

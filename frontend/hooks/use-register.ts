@@ -11,7 +11,7 @@ const registerValues: RegisterData = {
   passwordConfirmation: '',
 }
 
-export const useRegisterForm = () => {
+export const useRegister = () => {
   const {
     register,
     handleSubmit,

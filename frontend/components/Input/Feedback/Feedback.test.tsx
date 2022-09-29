@@ -1,5 +1,5 @@
-import { render } from '@/test-utils'
 import { Feedback } from '@/components/Input'
+import { render } from '@/utils'
 
 describe('Feedback test cases', () => {
   it('Render check for valid', () => {

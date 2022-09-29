@@ -1,7 +1,7 @@
 import { ChangeEventHandler } from 'react'
 import userEvent from '@testing-library/user-event'
-import { render, screen } from '@/test-utils'
 import { Input } from '@/components/Input'
+import { render, screen } from '@/utils'
 
 describe('Input test cases', () => {
   const changeHandler = jest.fn() as unknown as ChangeEventHandler<HTMLInputElement>

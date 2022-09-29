@@ -1,5 +1,5 @@
-import { render } from '@/test-utils'
 import { CenteredTile } from '@/components/Tile'
+import { render } from '@/utils'
 
 describe('Centered Tile test cases', () => {
   it('Render check', () => {

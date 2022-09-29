@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import { useId } from '@/hooks/useId'
+import { useId } from '@/hooks/use-id'
 
 describe('useId test cases', () => {
   it('Id check', () => {

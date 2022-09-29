@@ -1,5 +1,5 @@
-import { render } from '@/test-utils'
 import { Logo } from '@/components/Logo'
+import { render } from '@/utils'
 
 describe('Logo test cases', () => {
   it('Render check', () => {

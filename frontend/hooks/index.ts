@@ -1,3 +1,3 @@
-export * from './useId'
-export * from './useLoginForm'
-export * from './useRegisterForm'
+export * from './use-id'
+export * from './use-login'
+export * from './use-register'

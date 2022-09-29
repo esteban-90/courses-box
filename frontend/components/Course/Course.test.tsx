@@ -1,5 +1,5 @@
-import { render } from '@/test-utils'
 import { Course } from '@/components/Course'
+import { render } from '@/utils'
 
 describe('Course test cases', () => {
   it('Render check', () => {

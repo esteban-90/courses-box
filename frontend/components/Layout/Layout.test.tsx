@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
-import { render, screen, act } from '@/test-utils'
 import { Layout } from '@/components/Layout'
+import { render, screen, act } from '@/utils'
 
 describe('Layout test cases', () => {
   const layoutContent = (

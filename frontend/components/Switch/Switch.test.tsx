@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
-import { render, screen } from '@/test-utils'
 import { Switch } from '@/components/Switch'
+import { render, screen } from '@/utils'
 
 describe('Checkbox test cases', () => {
   const changeHandler = jest.fn()
