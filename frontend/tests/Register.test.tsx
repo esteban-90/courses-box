@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
-import { render, screen, act } from '@/test-utils'
 import Register from '@/pages/register'
+import { pageRender as render, screen, act } from '@/utils'
 import { messages } from '@/validations'
 
 describe('Register Page test cases', () => {
@@ -9,7 +9,7 @@ describe('Register Page test cases', () => {
     const registerForm = screen.getByTestId('form')
 
     expect(container).toMatchSnapshot()
-    expect(registerForm).toHaveFormValues({ email: '', password: '', passwordConfirmation: '' })
+    expect(registerForm).toHaveFormValues({ username: '', email: '', password: '', passwordConfirmation: '' })
   })
 
   it('Client validation check', async () => {
@@ -55,13 +55,13 @@ describe('Register Page test cases', () => {
       await userEvent.type(passConfirmField, 'Test1234**')
     })
 
-    const validFeedbacks = screen.getAllByRole('alert')
-    const [usernameValidFeedback, emailValidFeedback, passwordValidFeedback, passConfirmValidFeedback] = validFeedbacks
+    const feedbacks = screen.getAllByRole('alert')
 
-    expect(validFeedbacks).toHaveLength(4)
-    expect(usernameValidFeedback).toMatchSnapshot()
-    expect(emailValidFeedback).toMatchSnapshot()
-    expect(passwordValidFeedback).toMatchSnapshot()
-    expect(passConfirmValidFeedback).toMatchSnapshot()
+    expect(feedbacks).toHaveLength(5)
+    expect(feedbacks[0]).toMatchSnapshot()
+    expect(feedbacks[1]).toMatchSnapshot()
+    expect(feedbacks[2]).toMatchSnapshot()
+    expect(feedbacks[3]).toMatchSnapshot()
+    expect(feedbacks[4]).toMatchSnapshot()
   })
 })

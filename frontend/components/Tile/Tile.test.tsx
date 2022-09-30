@@ -1,5 +1,5 @@
-import { render } from '@/test-utils'
 import { Tile } from '@/components/Tile'
+import { render } from '@/utils'
 
 describe('Tile test cases', () => {
   it('Render check', () => {

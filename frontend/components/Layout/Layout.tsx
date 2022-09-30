@@ -1,16 +1,20 @@
 import { FC, useState, useEffect, useLayoutEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { ThemeProvider } from '@emotion/react'
 import NextLink from 'next/link'
 import { IconButton } from '@/components/IconButton'
 import { Link } from '@/components/Link'
+import { login, selectUser } from '@/services'
 import { Themes } from '@/styles/themes'
-import { LayoutProps } from '@/types'
+import { LayoutProps, AppDispatch, RootState } from '@/types'
 import * as Styled from './Layout.styled'
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 export const Layout: FC<LayoutProps> = ({ children }): JSX.Element => {
   const [isDark, setIsDark] = useState(true)
+  const dispatch = useDispatch<AppDispatch>()
+  const { username } = useSelector<RootState, RootState['user']>(selectUser)
   const theme = Themes[isDark ? 'dark' : 'light']
 
   const toggleTheme = () => {
@@ -19,6 +23,8 @@ export const Layout: FC<LayoutProps> = ({ children }): JSX.Element => {
   }
 
   useIsomorphicLayoutEffect(() => {
+    dispatch(login())
+
     const savedTheme = localStorage.getItem('courses-box-theme')
     const savedThemeExists = savedTheme !== null
     const savedThemeIsDark = savedTheme === 'dark'
@@ -45,8 +51,8 @@ export const Layout: FC<LayoutProps> = ({ children }): JSX.Element => {
             <Link>All</Link>
           </NextLink>
 
-          <NextLink href='/login' passHref>
-            <IconButton name='Login' size={1} />
+          <NextLink href={username ? '/profile' : '/login'} passHref>
+            <IconButton name={username ? 'User' : 'Login'} size={1} />
           </NextLink>
 
           <IconButton name={isDark ? 'Sun' : 'Moon'} size={1} onClick={toggleTheme} />

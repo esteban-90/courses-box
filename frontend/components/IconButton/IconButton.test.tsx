@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
-import { render, screen } from '@/test-utils'
 import { IconButton } from '@/components/IconButton'
+import { render, screen } from '@/utils'
 
 describe('IconButton test cases', () => {
   const clickHandler = jest.fn()

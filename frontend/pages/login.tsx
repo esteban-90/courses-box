@@ -1,24 +1,38 @@
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { useSelector, useDispatch } from 'react-redux'
 import NextLink from 'next/link'
 import styled from '@emotion/styled'
 import { Button, Input, ConditionalFeedback, Link, CenteredTile } from '@/components'
-import { useLoginForm } from '@/hooks'
-import { LoginData } from '@/types'
+import { useLogin } from '@/hooks'
+import { login, selectUser } from '@/services'
+import { LoginData, RootState, AppDispatch } from '@/types'
 
 const StyledInput = styled(Input)`
   margin-bottom: 1rem;
 `
 
 const Login: NextPage = (): JSX.Element => {
-  const { handleSubmit, fields, errors } = useLoginForm()
+  const router = useRouter()
+  const dispatch = useDispatch<AppDispatch>()
+  const { jwt, error } = useSelector<RootState, RootState['user']>(selectUser)
+  const { handleSubmit, fields, errors } = useLogin()
 
-  const submitHandler = (data: LoginData) => {
-    console.log(data)
+  const loginHandler = (data: LoginData) => {
+    dispatch(login(data))
+  }
+
+  if (!!jwt && !error) {
+    router.push('/profile')
   }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)} noValidate data-testid='form'>
+    <form onSubmit={handleSubmit(loginHandler)} noValidate data-testid='form'>
       <CenteredTile heading='Login Page'>
+        <h3>
+          <ConditionalFeedback>{error?.message}</ConditionalFeedback>
+        </h3>
+
         <StyledInput
           label='Your username or email:'
           placeholder='...'

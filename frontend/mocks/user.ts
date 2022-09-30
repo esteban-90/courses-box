@@ -5,10 +5,29 @@ export const mockUser = {
     username: 'tester123',
     email: 'tester@example.com',
     password: 'TestPsw12*',
+    // passwordConfirmation: 'TestPsw12*',
     provider: 'local',
     confirmed: true,
     blocked: false,
     createdAt: '2022-09-26T02:07:33.493Z',
     updatedAt: '2022-09-26T02:07:33.493Z',
+  },
+}
+
+export const LoginError = {
+  error: {
+    status: 400,
+    name: 'ValidationError',
+    message: 'Invalid identifier or password',
+    details: {},
+  },
+}
+
+export const RegisterError = {
+  error: {
+    status: 400,
+    name: 'ApplicationError',
+    message: 'An error occurred during account registration',
+    details: {},
   },
 }

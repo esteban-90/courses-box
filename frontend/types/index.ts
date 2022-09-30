@@ -1,7 +1,9 @@
 import { MouseEvent, ChangeEvent, ChangeEventHandler, InputHTMLAttributes, ReactNode, SVGProps } from 'react'
-import { ImageProps } from 'next/image'
 import { SerializedError } from '@reduxjs/toolkit'
+import { RenderOptions } from '@testing-library/react'
+import { ImageProps } from 'next/image'
 import * as Icons from '@/components/Icon/Icons'
+import { store } from '@/store'
 
 export type ButtonProps = {
   /** Text in the button */
@@ -111,22 +113,30 @@ export type RegisterData = {
   email: string
   /** User's username */
   username: string
-  /** User's password */
-  password: string
   /** Password confirmation */
-  passwordConfirmation: string
-}
+  passwordConfirmation?: string
+} & Pick<LoginData, 'password'>
 
 export type UserState = {
   /** JWT token */
   jwt: string
   /** Request state */
-  requestState?: 'pending' | 'fullfilled' | 'rejected'
+  requestState?: 'pending' | 'fulfilled' | 'rejected'
   /** Error */
   error?: SerializedError
-} & Omit<RegisterData, 'password' | 'passwordConfirmation'>
+} & Pick<RegisterData, 'email' | 'username'>
 
 export type UserPayload = {
   jwt: string
-  user: Omit<RegisterData, 'password' | 'passwordConfirmation'>
+  user: Pick<RegisterData, 'email' | 'username'>
 }
+
+// Infer the RootState and AppDispatch types from the store itself
+export type RootState = ReturnType<typeof store.getState>
+
+// Inferred type: {posts: PostState, comments: CommentState, users: UserState}
+export type AppDispatch = typeof store.dispatch
+
+export type StoreAndRenderOptions = {
+  preloadedState?: RootState
+} & RenderOptions

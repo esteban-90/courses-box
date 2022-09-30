@@ -1,24 +1,38 @@
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { useSelector, useDispatch } from 'react-redux'
 import NextLink from 'next/link'
 import styled from '@emotion/styled'
 import { Button, Input, ConditionalFeedback, Link, CenteredTile } from '@/components'
-import { useRegisterForm } from '@/hooks'
-import { RegisterData } from '@/types'
+import { useRegister } from '@/hooks'
+import { register, selectUser } from '@/services'
+import { RegisterData, RootState, AppDispatch } from '@/types'
 
 const StyledInput = styled(Input)`
   margin-bottom: 1rem;
 `
 
 const Register: NextPage = (): JSX.Element => {
-  const { handleSubmit, fields, errors } = useRegisterForm()
+  const router = useRouter()
+  const dispatch = useDispatch<AppDispatch>()
+  const { jwt, error } = useSelector<RootState, RootState['user']>(selectUser)
+  const { handleSubmit, fields, errors } = useRegister()
 
   const submitHandler = (data: RegisterData) => {
-    console.log(data)
+    dispatch(register(data))
+  }
+
+  if (!!jwt && !error) {
+    router.push('/profile')
   }
 
   return (
     <form onSubmit={handleSubmit(submitHandler)} noValidate data-testid='form'>
       <CenteredTile heading='Register Page'>
+        <h3>
+          <ConditionalFeedback>{error?.message}</ConditionalFeedback>
+        </h3>
+
         <StyledInput
           label='Your username:'
           placeholder='...'
