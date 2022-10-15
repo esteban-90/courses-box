@@ -19,15 +19,15 @@ type CourseProps = {
 
 export const Course: FC<CourseProps> = ({ heading, image, link, children }): JSX.Element => {
   return (
-    <NextLink href={link} passHref>
-      <Styled.Wrapper>
+    <Styled.Wrapper>
+      <NextLink href={link} passHref>
         <Styled.Link>
           <h2>{heading}</h2>
           <NextImage {...image} alt={heading} />
           {children}
         </Styled.Link>
-      </Styled.Wrapper>
-    </NextLink>
+      </NextLink>
+    </Styled.Wrapper>
   )
 }
 
