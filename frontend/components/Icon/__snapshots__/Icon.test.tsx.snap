@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Icon test cases Render check 1`] = `
+exports[`Icon test cases: should check render 1`] = `
 <DocumentFragment>
   <svg
     aria-label="Moon"

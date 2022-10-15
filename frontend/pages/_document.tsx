@@ -23,7 +23,6 @@ export default function Document(): JSX.Element {
         <script dangerouslySetInnerHTML={{ __html: initialTheme }} />
         <Global styles={GlobalStyles} />
       </Head>
-
       <body>
         <Main />
         <NextScript />

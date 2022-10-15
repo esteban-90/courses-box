@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import { makeShadow } from '@/styles/helpers'
 
 type ButtonProps = {
+  /** Width and height */
   size: number
 }
 
@@ -18,15 +19,15 @@ export const Button = styled.button<ButtonProps>`
 
   box-shadow: ${({ theme }) => {
     const { shadow1, shadow2 } = theme.components
-    const $shadow = makeShadow(shadow1, shadow2)
-    return $shadow
+    const boxShadow = makeShadow(shadow1, shadow2)
+    return boxShadow
   }};
 
   &:active {
     box-shadow: ${({ theme }) => {
       const { shadow1, shadow2 } = theme.components
-      const $shadow = makeShadow(shadow1, shadow2, true)
-      return $shadow
+      const boxShadow = makeShadow(shadow1, shadow2, true)
+      return boxShadow
     }};
   }
 

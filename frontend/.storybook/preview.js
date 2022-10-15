@@ -1,7 +1,13 @@
 import * as NextImage from 'next/image'
+import { Provider } from 'react-redux'
 import { ThemeProvider, Global } from '@emotion/react'
-import { Themes } from '../styles/themes'
+import { initialize, mswDecorator } from 'msw-storybook-addon'
+import { handlers } from '../mocks/handlers'
+import { store } from '../store'
 import { GlobalStyles } from '../styles/global'
+import { Themes } from '../styles/themes'
+
+initialize()
 
 const OriginalNextImage = NextImage.default
 
@@ -9,6 +15,14 @@ Object.defineProperty(NextImage, 'default', {
   configurable: true,
   value: (props) => <OriginalNextImage {...props} unoptimized />,
 })
+
+const withStoreProvider = (Story, context) => {
+  return (
+    <Provider store={store}>
+      <Story {...context} />
+    </Provider>
+  )
+}
 
 const withThemeProvider = (Story, context) => {
   const background = context.globals.backgrounds?.value ?? parameters.backgrounds.defaultColor
@@ -30,7 +44,7 @@ const withGlobalStyles = (Story, context) => {
   )
 }
 
-export const decorators = [withThemeProvider, withGlobalStyles]
+export const decorators = [withStoreProvider, withThemeProvider, withGlobalStyles, mswDecorator]
 
 export const parameters = {
   backgrounds: {
@@ -51,5 +65,9 @@ export const parameters = {
       color: /(background|color)$/i,
       date: /Date$/,
     },
+  },
+
+  msw: {
+    handlers,
   },
 }

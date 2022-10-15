@@ -1,8 +1,8 @@
 import { Course } from '@/components/Course'
-import { render } from '@/utils'
+import { render } from '@/tests/utils'
 
-describe('Course test cases', () => {
-  it('Render check', () => {
+describe('Course test cases:', () => {
+  it('should check render', () => {
     const courseContent = (
       <>
         <p>

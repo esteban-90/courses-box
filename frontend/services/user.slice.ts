@@ -1,138 +1,172 @@
-import { createSlice, createAsyncThunk, PayloadAction, SerializedError } from '@reduxjs/toolkit'
-import { UserState, UserPayload, LoginData, RegisterData, RootState } from '@/types'
+import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit'
+import { apiUrl } from '@/config'
+import type { UserState, UserPayload, User, ErrorPayload, LoginData, RegisterData } from '@/types'
 
-export const initialState: UserState = {
-  username: '',
-  email: '',
-  jwt: '',
+const tokenName = 'courses-box-user'
+
+export const removeTokenFromLocalStorage = () => {
+  localStorage.removeItem(tokenName)
 }
 
-export const userSlice = createSlice({
-  name: 'user',
+export const setTokenToLocalStorage = (token: string) => {
+  localStorage.setItem(tokenName, token)
+}
+
+export const getTokenFromLocalStorage = () => {
+  let jwt: string | null = ''
+  if (typeof window === 'undefined') return jwt
+  jwt = localStorage.getItem(tokenName)
+
+  return jwt
+}
+
+export const name = 'user'
+
+export const register = createAsyncThunk<UserPayload, RegisterData>(
+  `${name}/register`,
+
+  async (clientData, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${apiUrl}/auth/local/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(clientData),
+      })
+
+      const serverData = await response.json()
+
+      if (response.status >= 400) {
+        const error = serverData as ErrorPayload
+        throw error
+      }
+
+      const result = serverData as UserPayload
+      setTokenToLocalStorage(result.jwt)
+
+      return result
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const login = createAsyncThunk<UserPayload, LoginData>(
+  `${name}/login`,
+
+  async (clientData, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${apiUrl}/auth/local`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(clientData),
+      })
+
+      const serverData = await response.json()
+
+      if (response.status >= 400) {
+        const error = serverData as ErrorPayload
+        throw error
+      }
+
+      const result = serverData as UserPayload
+      setTokenToLocalStorage(result.jwt)
+
+      return result
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const getMe = createAsyncThunk<UserPayload, undefined>(
+  `${name}/getMe`,
+
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = getTokenFromLocalStorage()
+      const response = await fetch(`${apiUrl}/users/me`, {
+        method: 'GET',
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      })
+
+      const serverData = await response.json()
+
+      if (response.status >= 400) {
+        const error = serverData as ErrorPayload
+        if (error.error.message === 'Forbidden') error.error.message = ''
+        throw error
+      }
+
+      const user = serverData as User
+      const result = { jwt: token, user } as UserPayload
+
+      return result
+    } catch (error) {
+      removeTokenFromLocalStorage()
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const logout = createAsyncThunk(`${name}/logout`, () => removeTokenFromLocalStorage())
+
+export const initialState: UserState = {
+  jwt: '',
+  user: {
+    email: '',
+    username: '',
+  },
+}
+
+const userSlice = createSlice({
+  name,
   initialState,
   reducers: {},
 
-  extraReducers: (builder) => {
+  extraReducers(builder) {
     // Logout flow
     builder.addCase(logout.fulfilled, () => initialState)
 
-    // Login / Register flow
+    // Login, Register and Get Me flow
     builder
+      // FULFILLED
       .addMatcher<PayloadAction<UserPayload>>(
-        (action) => /\/(login|register)\/fulfilled$/.test(action.type),
+        (action) => /\/(login|register|getMe)\/fulfilled$/.test(action.type),
         (state, action) => {
-          state.requestState = 'fulfilled'
           state.jwt = action.payload.jwt
-          state.username = action.payload.user.username
-          state.email = action.payload.user.email
-          state.error = undefined
+          state.user.username = action.payload.user.username
+          state.user.email = action.payload.user.email
+          state.requestState = 'fulfilled'
         }
       )
+      // PENDING
       .addMatcher(
-        (action) => (action.type as string).endsWith('/pending'),
+        (action) => action.type.endsWith('/pending'),
         (state) => void (state.requestState = 'pending')
       )
-      .addMatcher(
-        (action) => (action.type as string).endsWith('/rejected'),
+      // REJECTED
+      .addMatcher<PayloadAction<ErrorPayload>>(
+        (action) => action.type.endsWith('/rejected'),
         (state, action) => {
-          state.error = (action.payload as { error: SerializedError })?.error
           state.requestState = 'rejected'
+          state.error = action.payload
         }
+      )
+      // PENDING and REJECTED
+      .addMatcher(
+        (action) => !action.type.endsWith('/fulfilled'),
+        (state) => {
+          state.jwt = initialState.jwt
+          state.user.username = initialState.user.username
+          state.user.email = initialState.user.email
+        }
+      )
+      // PENDING and FULFILLED
+      .addMatcher(
+        (action) => !action.type.endsWith('/rejected'),
+        (state) => void (state.error = undefined)
       )
   },
 })
 
-export const { actions, reducer } = userSlice
-export const selectUser = ({ user }: RootState) => user
-
-const apiURL = process.env.NEXT_PUBLIC_STRAPI_API_URL
-
-const clearUserInfoFromLocalStorage = () => {
-  localStorage.removeItem('jwt')
-  localStorage.removeItem('username')
-  localStorage.removeItem('email')
-}
-
-const setUserInfoToLocalStorage = (result: UserPayload) => {
-  localStorage.setItem('jwt', result.jwt)
-  localStorage.setItem('username', result?.user?.username)
-  localStorage.setItem('email', result?.user?.email)
-}
-
-const createRequest = (jwt: string | null, loginData: LoginData | undefined) => {
-  if (jwt && !loginData) {
-    return fetch(`${apiURL}/users/me`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    })
-  }
-
-  if (loginData) {
-    return fetch(`${apiURL}/auth/local`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginData),
-    })
-  }
-
-  throw { error: 'Invalid login request' }
-}
-
-export const login = createAsyncThunk<UserPayload, LoginData | undefined>(
-  'user/login',
-
-  async (loginData, { rejectWithValue }) => {
-    try {
-      const jwt = localStorage.getItem('jwt')
-      const response = await createRequest(jwt, loginData)
-      const data = await response.json()
-
-      if (response.status < 200 || response.status >= 300) {
-        clearUserInfoFromLocalStorage()
-        return rejectWithValue(data)
-      }
-
-      const result = (jwt ? { jwt, user: data } : data) as UserPayload
-      setUserInfoToLocalStorage(result)
-
-      return result
-    } catch (error) {
-      clearUserInfoFromLocalStorage()
-      return rejectWithValue(error)
-    }
-  }
-)
-
-export const logout = createAsyncThunk('user/logout', async () => clearUserInfoFromLocalStorage())
-
-export const register = createAsyncThunk<UserPayload, Omit<RegisterData, 'passwordConfirmation'>>(
-  'user/register',
-
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await fetch(`${apiURL}/auth/local/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-
-      const result = await response.json()
-
-      if (response.status < 200 || response.status >= 300) {
-        return rejectWithValue(result)
-      }
-
-      setUserInfoToLocalStorage(result)
-
-      return result
-    } catch (error) {
-      return rejectWithValue(error)
-    }
-  }
-)
+export const { reducer } = userSlice

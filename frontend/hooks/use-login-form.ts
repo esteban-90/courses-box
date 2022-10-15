@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { LoginData } from '@/types'
+import type { LoginData } from '@/types'
 import { loginSchema } from '@/validations'
 
 const loginValues: LoginData = {
@@ -9,7 +9,7 @@ const loginValues: LoginData = {
   password: '',
 }
 
-export const useLogin = () => {
+export const useLoginForm = () => {
   const {
     register,
     handleSubmit,

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Link test cases Render check 1`] = `
+exports[`Link test cases: should check render 1`] = `
 <DocumentFragment>
   <a
     class="css-1nz5qw1"

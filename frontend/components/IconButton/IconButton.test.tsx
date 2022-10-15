@@ -1,8 +1,8 @@
 import userEvent from '@testing-library/user-event'
 import { IconButton } from '@/components/IconButton'
-import { render, screen } from '@/utils'
+import { render, screen } from '@/tests/utils'
 
-describe('IconButton test cases', () => {
+describe('IconButton test cases:', () => {
   const clickHandler = jest.fn()
 
   const iconButtonElement = (
@@ -11,12 +11,12 @@ describe('IconButton test cases', () => {
     </IconButton>
   )
 
-  it('Render check', () => {
+  it('should check render', () => {
     const { asFragment } = render(iconButtonElement)
     expect(asFragment()).toMatchSnapshot()
   })
 
-  it('Check onClick callback', async () => {
+  it('should check onClick callback', async () => {
     render(iconButtonElement)
     await userEvent.click(screen.getByRole('button'))
     expect(clickHandler).toHaveBeenCalled()

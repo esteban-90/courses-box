@@ -1,16 +1,12 @@
-import { FC, ReactElement, ReactNode } from 'react'
+import type { FC, ReactElement, ReactNode } from 'react'
 import { Provider as StoreProvider } from 'react-redux'
-import { configureStore } from '@reduxjs/toolkit'
-import { render, RenderResult } from '@testing-library/react'
+import { render, type RenderResult, type RenderOptions } from '@testing-library/react'
 import { ThemeProvider } from '@emotion/react'
 import { Layout } from '@/components'
-import { rootReducer } from '@/store'
+import { store } from '@/store'
 import { Themes } from '@/styles/themes'
-import { StoreAndRenderOptions } from '@/types'
 
-const customRender = (ui: ReactElement, { preloadedState, ...options }: StoreAndRenderOptions = {}): RenderResult => {
-  const store = configureStore({ reducer: rootReducer, preloadedState })
-
+const customRender = (ui: ReactElement, options: RenderOptions = {}): RenderResult => {
   const Wrapper: FC<{ children: ReactNode }> = ({ children }): JSX.Element => {
     return (
       <StoreProvider store={store}>
@@ -22,9 +18,7 @@ const customRender = (ui: ReactElement, { preloadedState, ...options }: StoreAnd
   return render(ui, { wrapper: Wrapper, ...options })
 }
 
-const pageRender = (ui: ReactElement, { preloadedState, ...options }: StoreAndRenderOptions = {}): RenderResult => {
-  const store = configureStore({ reducer: rootReducer, preloadedState })
-
+const pageRender = (ui: ReactElement, options: RenderOptions = {}): RenderResult => {
   const Wrapper: FC<{ children: ReactNode }> = ({ children }): JSX.Element => {
     return (
       <StoreProvider store={store}>

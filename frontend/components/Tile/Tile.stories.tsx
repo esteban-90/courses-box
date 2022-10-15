@@ -1,4 +1,4 @@
-import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
+import type { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 import { expect } from '@storybook/jest'
 import { screen } from '@storybook/testing-library'
 import { Tile } from '@/components/Tile'

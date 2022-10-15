@@ -1,5 +1,5 @@
 import { object, string } from 'yup'
-import { messages, passwordRegExp, usernameRegExp } from '@/validations/common'
+import { messages, password, usernameRegExp } from '@/validations/common'
 
 export const loginSchema = object().shape({
   identifier: string()
@@ -14,5 +14,5 @@ export const loginSchema = object().shape({
       return true
     }),
 
-  password: string().trim().required(messages.required.field).matches(passwordRegExp, messages.invalid.password),
+  password,
 })

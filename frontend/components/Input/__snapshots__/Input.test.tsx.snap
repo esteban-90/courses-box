@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Input test cases Render check 1`] = `
+exports[`Input test cases: should check render 1`] = `
 <DocumentFragment>
   <label
     class="css-1crzmqd"
@@ -28,7 +28,7 @@ exports[`Input test cases Render check 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Input test cases Render check with icon 1`] = `
+exports[`Input test cases: should check render with icon 1`] = `
 <DocumentFragment>
   <label
     class="css-1crzmqd"

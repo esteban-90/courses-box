@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { css } from '@emotion/react'
-import { Tile as _Tile } from '@/components/Tile'
+import { Tile as _Tile } from '@/components/Tile/Tile'
 
 const CommonStyles = css`
   display: flex;

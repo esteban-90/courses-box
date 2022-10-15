@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
+    "test": "jest -u --verbose --silent",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "prettier": "prettier --write .",
-    "chromatic": "npx chromatic --project-token=8388c3e9a836"
+    "chromatic": "npx chromatic --project-token=8388c3e9a836",
+    "dpdm": "dpdm --no-warning --no-tree ./pages/index.tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -19,6 +20,7 @@
     "@hookform/resolvers": "^2.9.8",
     "@reduxjs/toolkit": "^1.8.5",
     "next": "12.2.5",
+    "qs": "^6.11.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.36.0",
@@ -40,6 +42,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/markdown-it": "^12.2.3",
     "@types/node": "18.7.15",
     "@types/react": "18.0.18",
     "@types/react-dom": "18.0.6",
@@ -50,12 +53,19 @@
     "eslint-plugin-storybook": "^0.6.4",
     "jest": "^29.0.3",
     "jest-environment-jsdom": "^29.0.3",
-    "msw": "^0.47.3",
+    "markdown-it": "^13.0.1",
+    "msw": "^0.47.4",
+    "msw-storybook-addon": "^1.6.3",
     "prettier": "2.7.1",
+    "storybook-addon-next": "^1.6.9",
+    "ts-jest": "^29.0.3",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "4.8.2",
     "whatwg-fetch": "^3.6.2"
   },
   "readme": "ERROR: No README data found!",
-  "_id": "courses-box@0.1.0"
+  "_id": "courses-box@0.1.0",
+  "msw": {
+    "workerDirectory": "public"
+  }
 }

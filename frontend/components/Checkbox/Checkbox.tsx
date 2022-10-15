@@ -1,14 +1,18 @@
-import { FC } from 'react'
+import type { FC, ChangeEventHandler } from 'react'
 import { useId } from '@/hooks'
-import { CheckboxProps } from '@/types'
-import * as Styled from './Checkbox.styled'
+import * as Styled from '@styled/Checkbox'
 
-export const Checkbox: FC<CheckboxProps> = ({ onChange }): JSX.Element => {
+type CheckboxProps = {
+  /** Change handler for checkbox */
+  changeHandler: ChangeEventHandler<HTMLInputElement>
+}
+
+export const Checkbox: FC<CheckboxProps> = ({ changeHandler }): JSX.Element => {
   const inputId = useId()
 
   return (
     <Styled.Wrapper>
-      <input id={inputId} type='checkbox' onChange={onChange} />
+      <input id={inputId} type='checkbox' onChange={changeHandler} />
       <Styled.VisiblePart htmlFor={inputId}>&#x1F5F8;</Styled.VisiblePart>
     </Styled.Wrapper>
   )

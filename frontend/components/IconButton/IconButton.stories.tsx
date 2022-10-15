@@ -1,5 +1,4 @@
-import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
-// import { expect } from '@storybook/jest'
+import type { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 import { screen, userEvent } from '@storybook/testing-library'
 import { IconButton } from '@/components/IconButton'
 
@@ -12,10 +11,8 @@ export default {
 } as ComponentMeta<typeof IconButton>
 
 export const BasicIconButton: ComponentStoryObj<typeof IconButton> = {
-  async play({ args }) {
+  async play() {
     await userEvent.click(screen.getByRole('button'))
-    // @todo: https://github.com/storybookjs/storybook/issues/16941
-    // await expect(args.onClick).toHaveBeenCalled()
   },
 
   args: {

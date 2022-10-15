@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Course test cases Render check 1`] = `
+exports[`Course test cases: should check render 1`] = `
 <DocumentFragment>
   <section
-    class="css-1l8yls"
+    class="css-1433z02"
+    href="/hands-on-reactjs"
   >
     <a
-      class="css-1lpk0xx"
-      href="/hands-on-reactjs"
+      class="css-p8yy8b"
     >
       <h2>
         Hands-On React. Build advanced React JS Frontend with expert

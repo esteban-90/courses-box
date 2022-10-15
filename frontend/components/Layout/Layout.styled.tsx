@@ -15,13 +15,12 @@ export const Footer = styled.footer`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 5rem;
 `
 
 export const Input = styled(_Input)`
   grid-area: search;
   width: 100%;
-  height: 4rem;
+  height: 3.5rem;
 `
 
 export const Logo = styled(_Logo)`
@@ -29,7 +28,7 @@ export const Logo = styled(_Logo)`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 4rem;
+  height: 3.5rem;
 
   & .logo_full {
     display: none;

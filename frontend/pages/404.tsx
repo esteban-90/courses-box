@@ -11,7 +11,6 @@ const StyledWrapper = styled.div`
 `
 
 const StyledLink = styled(Link)`
-  text-decoration: underline;
   font-size: 3rem;
 `
 
@@ -20,7 +19,7 @@ export default function Error404(): JSX.Element {
     <StyledWrapper>
       <Logo>404 - Page Not Found</Logo>
       <NextLink href='/' passHref>
-        <StyledLink>Go Home</StyledLink>
+        <StyledLink isUnderline>Go Home</StyledLink>
       </NextLink>
     </StyledWrapper>
   )

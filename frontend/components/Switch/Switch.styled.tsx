@@ -14,8 +14,8 @@ export const VisiblePart = styled.label`
 
   box-shadow: ${({ theme }) => {
     const { shadow1, shadow2 } = theme.components
-    const $shadow = makeShadow(shadow1, shadow2)
-    return $shadow
+    const boxShadow = makeShadow(shadow1, shadow2)
+    return boxShadow
   }};
 
   &::after {

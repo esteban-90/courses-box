@@ -1,125 +1,122 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { mockUser, LoginError, RegisterError } from '@/mocks/user'
-import { reducer, initialState, login, logout, register } from '@/services/user.slice'
-import { UserState, LoginData, RegisterData } from '@/types'
+import { initialState } from '@/services/user.slice'
+import { register, login, getMe, logout } from '@/services/user.slice'
+import { getTokenFromLocalStorage, setTokenToLocalStorage, removeTokenFromLocalStorage } from '@/services/user.slice'
+import { mockUser, mockPassword, mockLoginError, mockRegisterError } from '@/mocks/users'
+import { store } from '@/store'
+import type { UserState, LoginData, RegisterData } from '@/types'
 
-const storeCreator = () => configureStore({ reducer: { user: reducer } })
-
-const userState: UserState = {
-  jwt: mockUser.jwt,
+const validRegisterData: RegisterData = {
   username: mockUser.user.username,
   email: mockUser.user.email,
+  password: mockPassword,
 }
 
-const loginData: LoginData = {
+const invalidRegisterData: RegisterData = {
+  email: 'test',
+  username: 'test',
+  password: 'wrong',
+}
+
+const validLoginData: LoginData = {
   identifier: mockUser.user.email,
-  password: mockUser.user.password,
+  password: mockPassword,
 }
 
-const registerData: RegisterData = {
-  username: mockUser.user.username,
-  email: mockUser.user.email,
-  password: mockUser.user.password,
+const invalidLoginData: LoginData = {
+  ...validLoginData,
+  password: 'WrongPsw1*',
 }
 
-describe('User slice test cases', () => {
-  beforeEach(() => localStorage.clear())
+const rejectedRegisterResult: UserState = {
+  ...initialState,
+  user: { ...initialState.user },
+  requestState: 'rejected',
+  error: mockRegisterError,
+}
 
-  describe('Login flow', () => {
-    it('success login flow', async () => {
-      const store = storeCreator()
+const rejectedLoginResult: UserState = {
+  ...rejectedRegisterResult,
+  user: { ...rejectedRegisterResult.user },
+  error: mockLoginError,
+}
 
-      const { user: userBeforeLogin } = store.getState()
-      const resultBeforeLogin: UserState = { ...initialState }
-      expect(userBeforeLogin).toEqual(resultBeforeLogin)
+const fulfilledResult: UserState = {
+  jwt: mockUser.jwt,
+  user: {
+    email: mockUser.user.email,
+    username: mockUser.user.username,
+  },
+  requestState: 'fulfilled',
+  error: undefined,
+}
 
-      await store.dispatch(login(loginData))
+describe('User slice test cases:', () => {
+  beforeEach(() => {
+    removeTokenFromLocalStorage()
+  })
 
-      const { user: userAfterLogin } = store.getState()
-      const resultAfterLogin: UserState = { ...userState, requestState: 'fulfilled' }
-      expect(userAfterLogin).toEqual(resultAfterLogin)
+  describe('Register flow:', () => {
+    it('should fail with invalid data', async () => {
+      await store.dispatch(register(invalidRegisterData))
+      const { user: rejectedRegisterState } = store.getState()
 
-      expect(localStorage.getItem('jwt')).toBe(mockUser.jwt)
-      expect(localStorage.getItem('username')).toBe(mockUser.user.username)
-      expect(localStorage.getItem('email')).toBe(mockUser.user.email)
+      expect(rejectedRegisterState).toEqual(rejectedRegisterResult)
+      expect(getTokenFromLocalStorage()).toBeNull()
     })
 
-    it('fail login flow', async () => {
-      const store = storeCreator()
-      const invalidLoginData: LoginData = { ...loginData, password: 'wrongpass' }
-      await store.dispatch(login(invalidLoginData))
+    it('should succeed with valid data', async () => {
+      await store.dispatch(register(validRegisterData))
+      const { user: fulfilledRegisterState } = store.getState()
 
-      const { user } = store.getState()
-      const invalidResult: UserState = { ...initialState, requestState: 'rejected', ...LoginError }
-      expect(user).toEqual(invalidResult)
-    })
-
-    it('with saved jwt', async () => {
-      localStorage.setItem('jwt', mockUser.jwt)
-
-      const store = storeCreator()
-      await store.dispatch(login())
-
-      const { user } = store.getState()
-      const validResult: UserState = { ...userState, requestState: 'fulfilled' }
-      expect(user).toEqual(validResult)
+      expect(fulfilledRegisterState).toEqual(fulfilledResult)
+      expect(getTokenFromLocalStorage()).toBe(mockUser.jwt)
     })
   })
 
-  describe('Logout flow', () => {
-    it('logout action', async () => {
-      const store = storeCreator()
+  describe('Login flow:', () => {
+    it('should fail with invalid data', async () => {
+      await store.dispatch(login(invalidLoginData))
+      const { user: rejectedLoginState } = store.getState()
 
+      expect(rejectedLoginState).toEqual(rejectedLoginResult)
+      expect(getTokenFromLocalStorage()).toBeNull()
+    })
+
+    it('should succeed with valid data', async () => {
+      await store.dispatch(login(validLoginData))
+      const { user: fulfilledLoginState } = store.getState()
+
+      expect(fulfilledLoginState).toEqual(fulfilledResult)
+      expect(getTokenFromLocalStorage()).toBe(mockUser.jwt)
+    })
+  })
+
+  describe('Get me flow:', () => {
+    it('should succeed with saved token', async () => {
+      setTokenToLocalStorage(mockUser.jwt)
+
+      await store.dispatch(getMe())
+      const { user: fulfilledGetMeState } = store.getState()
+
+      expect(fulfilledGetMeState).toEqual(fulfilledResult)
+    })
+  })
+
+  describe('Logout flow:', () => {
+    it('should succeed after a successful login process', async () => {
       // Login
-      await store.dispatch(login(loginData))
+      await store.dispatch(login(validLoginData))
+      const { user: fulfilledLoginState } = store.getState()
 
-      const { user: userAfterLogin } = store.getState()
-      const resultAfterLogin: UserState = { ...userState, requestState: 'fulfilled' }
-      expect(userAfterLogin).toEqual(resultAfterLogin)
-
-      expect(localStorage.getItem('jwt')).toBe(mockUser.jwt)
-      expect(localStorage.getItem('username')).toBe(mockUser.user.username)
-      expect(localStorage.getItem('email')).toBe(mockUser.user.email)
+      expect(fulfilledLoginState).toEqual(fulfilledResult)
+      expect(getTokenFromLocalStorage()).toBe(mockUser.jwt)
 
       // Logout
       await store.dispatch(logout())
+      const { user: fulfilledLogoutState } = store.getState()
 
-      const { user: userAfterLogout } = store.getState()
-      const resultAfterLogout: UserState = { ...initialState }
-      expect(userAfterLogout).toEqual(resultAfterLogout)
-
-      expect(localStorage.getItem('jwt')).toBeNull()
-      expect(localStorage.getItem('username')).toBeNull()
-      expect(localStorage.getItem('email')).toBeNull()
-    })
-  })
-
-  describe('Register flow', () => {
-    it('fail register flow', async () => {
-      const store = storeCreator()
-      const invalidRegisterData: RegisterData = { email: 'test', username: 'test', password: 'wrong' }
-      await store.dispatch(register(invalidRegisterData))
-
-      const { user } = store.getState()
-      const invalidResult: UserState = { ...initialState, requestState: 'rejected', ...RegisterError }
-      expect(user).toEqual(invalidResult)
-
-      expect(localStorage.getItem('jwt')).toBeNull()
-      expect(localStorage.getItem('username')).toBeNull()
-      expect(localStorage.getItem('email')).toBeNull()
-    })
-
-    it('success register flow', async () => {
-      const store = storeCreator()
-      await store.dispatch(register(registerData))
-
-      const { user } = store.getState()
-      const validResult: UserState = { ...userState, requestState: 'fulfilled' }
-      expect(user).toEqual(validResult)
-
-      expect(localStorage.getItem('jwt')).toBe(mockUser.jwt)
-      expect(localStorage.getItem('username')).toBe(mockUser.user.username)
-      expect(localStorage.getItem('email')).toBe(mockUser.user.email)
+      expect(fulfilledLogoutState).toEqual(initialState)
+      expect(getTokenFromLocalStorage()).toBeNull()
     })
   })
 })

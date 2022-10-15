@@ -1,8 +1,8 @@
 import { Tile } from '@/components/Tile'
-import { render } from '@/utils'
+import { render } from '@/tests/utils'
 
-describe('Tile test cases', () => {
-  it('Render check', () => {
+describe('Tile test cases:', () => {
+  it('should check render', () => {
     const tileElement = (
       <Tile heading='Lorem ipsum dolor sit amet.'>
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium rem blanditiis exercitationem non tempora

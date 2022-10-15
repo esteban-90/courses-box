@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
 import { Icon as _Icon } from '@/components/Icon'
 import { makeShadow } from '@/styles/helpers'
-import { InputWrapperProps } from '@/types'
 
 export const Label = styled.span`
   grid-area: label;
@@ -40,15 +39,15 @@ export const Input = styled.input`
 
   box-shadow: ${({ theme }) => {
     const { shadow1, shadow2 } = theme.components
-    const $shadow = makeShadow(shadow1, shadow2, true)
-    return $shadow
+    const boxShadow = makeShadow(shadow1, shadow2, true)
+    return boxShadow
   }};
 
   &:focus {
     box-shadow: ${({ theme }) => {
       const { shadow1, shadow2 } = theme.components
-      const $shadow = makeShadow(shadow1, shadow2)
-      return $shadow
+      const boxShadow = makeShadow(shadow1, shadow2)
+      return boxShadow
     }};
   }
 
@@ -68,7 +67,18 @@ export const Input = styled.input`
   }
 `
 
-export const OuterWrapper = styled.label<InputWrapperProps>`
+export type WrapperProps = {
+  /** Input height */
+  height?: number
+  /** Input width */
+  width?: number
+  /** Label visibility */
+  isLabelVisible?: boolean
+  /** Feedback visibility */
+  isFeedbackVisible?: boolean
+}
+
+export const OuterWrapper = styled.label<WrapperProps>`
   font-size: 1rem;
   display: grid;
   gap: 0.1rem;
