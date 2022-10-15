@@ -22,7 +22,7 @@ const StyledHeading = styled.h3`
 
 const renderHeading = (q: string, courses?: CourseType[], error?: string) => {
   if (error) return error
-  return !!courses?.length ? `Search results for "${q}"` : `No results for "${q}"... 😥`
+  return courses?.length ? `Search results for "${q}"` : `No results for "${q}"... 😥`
 }
 
 const Search: NextPage<{ courses?: CourseType[]; error?: string }> = ({

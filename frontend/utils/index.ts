@@ -9,10 +9,10 @@ const getData = async (param: string) => {
   const error = status >= 400 ? (result as ErrorPayload) : undefined
   const success = status >= 200 && status < 400 ? (result as CoursesPayload | CoursePayload) : undefined
 
-  return { data: success?.data, error: error?.error.message }
+  return { data: success?.data, error: error?.error?.message ?? '' }
 }
 
-type Data<D> = Promise<{ data: D; error?: string }>
+type Data<D> = Promise<{ data: D; error: string }>
 
 export const getCourses = () => getData('?populate=*') as Data<CourseType[]>
 export const getCourseById = (id: string) => getData(`/${id}?populate=*`) as Data<CourseType>
