@@ -44,7 +44,7 @@ const Login: NextPage = (): JSX.Element | null => {
       </Head>
       <form onSubmit={handleSubmit(loginHandler)} noValidate data-testid='form'>
         <CenteredTile heading='Login Page'>
-          <OptionalFeedback>{error?.error.message}</OptionalFeedback>
+          <OptionalFeedback>{error?.error?.message ?? ''}</OptionalFeedback>
           <StyledInput
             autoFocus
             label='Your username or email:'

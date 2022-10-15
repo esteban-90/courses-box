@@ -44,7 +44,7 @@ const Register: NextPage = (): JSX.Element | null => {
       </Head>
       <form onSubmit={handleSubmit(registerHandler)} noValidate data-testid='form'>
         <CenteredTile heading='Register Page'>
-          <OptionalFeedback>{error?.error.message}</OptionalFeedback>
+          <OptionalFeedback>{error?.error?.message ?? ''}</OptionalFeedback>
           <StyledInput
             autoFocus
             label='Your username:'
