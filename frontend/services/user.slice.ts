@@ -14,6 +14,7 @@ export const setTokenToLocalStorage = (token: string) => {
 
 export const getTokenFromLocalStorage = () => {
   let jwt: string | null = ''
+
   if (typeof window === 'undefined') return jwt
   jwt = localStorage.getItem(tokenName)
 
@@ -22,14 +23,18 @@ export const getTokenFromLocalStorage = () => {
 
 export const name = 'user'
 
+const options: RequestInit = {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+}
+
 export const register = createAsyncThunk<UserPayload, RegisterData>(
   `${name}/register`,
 
   async (clientData, { rejectWithValue }) => {
     try {
       const response = await fetch(`${apiUrl}/auth/local/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        ...options,
         body: JSON.stringify(clientData),
       })
 
@@ -56,8 +61,7 @@ export const login = createAsyncThunk<UserPayload, LoginData>(
   async (clientData, { rejectWithValue }) => {
     try {
       const response = await fetch(`${apiUrl}/auth/local`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        ...options,
         body: JSON.stringify(clientData),
       })
 
@@ -84,6 +88,7 @@ export const getMe = createAsyncThunk<UserPayload, undefined>(
   async (_, { rejectWithValue }) => {
     try {
       const token = getTokenFromLocalStorage()
+
       const response = await fetch(`${apiUrl}/users/me`, {
         method: 'GET',
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
@@ -93,7 +98,7 @@ export const getMe = createAsyncThunk<UserPayload, undefined>(
 
       if (response.status >= 400) {
         const error = serverData as ErrorPayload
-        if (error.error.message === 'Forbidden') error.error.message = ''
+        if (error?.error?.message === 'Forbidden') error.error.message = ''
         throw error
       }
 

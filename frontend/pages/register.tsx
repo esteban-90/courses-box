@@ -2,10 +2,10 @@
 import type { NextPage } from 'next'
 import { useEffect } from 'react'
 import Head from 'next/head'
-import NextLink from 'next/link'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from '@emotion/styled'
-import { Button, Input, OptionalFeedback, Link, CenteredTile } from '@/components'
+import { Button, Input, OptionalFeedback, Link as MyLink, CenteredTile } from '@/components'
 import { useRegisterForm, useAppDispatch, useAppSelector } from '@/hooks'
 import { register, logout } from '@/services'
 import type { RegisterData } from '@/types'
@@ -44,7 +44,7 @@ const Register: NextPage = (): JSX.Element | null => {
       </Head>
       <form onSubmit={handleSubmit(registerHandler)} noValidate data-testid='form'>
         <CenteredTile heading='Register Page'>
-          <OptionalFeedback>{error?.error?.message ?? ''}</OptionalFeedback>
+          <OptionalFeedback>{error?.error?.message}</OptionalFeedback>
           <StyledInput
             autoFocus
             label='Your username:'
@@ -87,11 +87,11 @@ const Register: NextPage = (): JSX.Element | null => {
           <Button type='submit' style={{ marginTop: '1rem' }}>
             Done
           </Button>
-          <NextLink href='/login' passHref>
-            <Link isUnderline style={{ marginTop: '1rem', fontWeight: 'bold' }}>
+          <Link href='/login' passHref>
+            <MyLink isUnderline style={{ marginTop: '1rem', fontWeight: 'bold' }}>
               Access your account
-            </Link>
-          </NextLink>
+            </MyLink>
+          </Link>
         </CenteredTile>
       </form>
     </>

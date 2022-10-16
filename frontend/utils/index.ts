@@ -9,7 +9,7 @@ const getData = async (param: string) => {
   const error = status >= 400 ? (result as ErrorPayload) : undefined
   const success = status >= 200 && status < 400 ? (result as CoursesPayload | CoursePayload) : undefined
 
-  return { data: success?.data, error: error?.error?.message ?? '' }
+  return { data: success?.data, error: error?.error?.message }
 }
 
 type Data<D> = Promise<{ data: D; error: string }>

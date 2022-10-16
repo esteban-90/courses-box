@@ -3,20 +3,23 @@ import type { SerializedError } from '@reduxjs/toolkit'
 type WithAtLeast<T, K extends keyof T> = Required<Pick<T, K>> & Partial<Omit<T, K>>
 
 export type LoginData = {
+  /** User's username or email */
   identifier: string
+  /** User's password */
   password: string
 }
 
 export type RegisterData = {
+  /** User's email */
   email: string
+  /** User's username */
   username: string
+  /** Password confirmation */
   passwordConfirmation?: string
 } & Pick<LoginData, 'password'>
 
-export type User = {
+export type User = Pick<RegisterData, 'email' | 'username'> & {
   id: number
-  username: string
-  email: string
   provider: string
   confirmed: boolean
   blocked: boolean
@@ -25,15 +28,20 @@ export type User = {
 }
 
 export type UserPayload = {
+  /** JWT token */
   jwt: string
+  /** User data */
   user: User
 }
 
 type RequestState = 'pending' | 'fulfilled' | 'rejected'
 
 export type UserState = Pick<UserPayload, 'jwt'> & {
+  /** User's email and username */
   user: WithAtLeast<User, 'email' | 'username'>
+  /** Request state */
   requestState?: RequestState
+  /** Error payload from Strapi backend */
   error?: ErrorPayload
 }
 

@@ -4,10 +4,10 @@ exports[`Course test cases: should check render 1`] = `
 <DocumentFragment>
   <section
     class="css-1433z02"
-    href="/hands-on-reactjs"
   >
     <a
       class="css-p8yy8b"
+      href="/hands-on-reactjs"
     >
       <h2>
         Hands-On React. Build advanced React JS Frontend with expert
