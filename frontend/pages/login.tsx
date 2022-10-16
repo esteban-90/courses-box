@@ -1,70 +1,81 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import type { NextPage } from 'next'
+import { useEffect } from 'react'
+import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useSelector, useDispatch } from 'react-redux'
-import NextLink from 'next/link'
 import styled from '@emotion/styled'
-import { Button, Input, ConditionalFeedback, Link, CenteredTile } from '@/components'
-import { useLogin } from '@/hooks'
-import { login, selectUser } from '@/services'
-import { LoginData, RootState, AppDispatch } from '@/types'
+import { Button, Input, OptionalFeedback, Link as MyLink, CenteredTile } from '@/components'
+import { useLoginForm, useAppDispatch, useAppSelector } from '@/hooks'
+import { login, logout } from '@/services'
+import type { LoginData } from '@/types'
 
 const StyledInput = styled(Input)`
   margin-bottom: 1rem;
 `
 
-const Login: NextPage = (): JSX.Element => {
+const Login: NextPage = (): JSX.Element | null => {
+  const { jwt, error } = useAppSelector()
+  const dispatch = useAppDispatch()
   const router = useRouter()
-  const dispatch = useDispatch<AppDispatch>()
-  const { jwt, error } = useSelector<RootState, RootState['user']>(selectUser)
-  const { handleSubmit, fields, errors } = useLogin()
+  const { handleSubmit, fields, errors } = useLoginForm()
 
   const loginHandler = (data: LoginData) => {
     dispatch(login(data))
   }
 
-  if (!!jwt && !error) {
-    router.push('/profile')
-  }
+  useEffect(() => {
+    if (jwt) router.push('/profile')
+  }, [jwt])
 
-  return (
-    <form onSubmit={handleSubmit(loginHandler)} noValidate data-testid='form'>
-      <CenteredTile heading='Login Page'>
-        <h3>
-          <ConditionalFeedback>{error?.message}</ConditionalFeedback>
-        </h3>
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => dispatch(logout()), 5_000)
+      return () => clearTimeout(timer)
+    }
+  }, [error])
 
-        <StyledInput
-          label='Your username or email:'
-          placeholder='...'
-          {...fields.identifier}
-          feedback={<ConditionalFeedback>{errors.identifier}</ConditionalFeedback>}
-          spellCheck={false}
-          data-testid='identifier'
-        />
-
-        <StyledInput
-          label='Your password:'
-          type='password'
-          placeholder='**********'
-          minLength={8}
-          maxLength={10}
-          {...fields.password}
-          feedback={<ConditionalFeedback>{errors.password}</ConditionalFeedback>}
-          data-testid='password'
-        />
-
-        <Button type='submit' style={{ marginTop: '1rem' }}>
-          Enter
-        </Button>
-
-        <NextLink href='/registration' passHref>
-          <Link underline style={{ marginTop: '1rem', fontWeight: 'bold' }}>
-            Create your account
+  return !jwt ? (
+    <>
+      <Head>
+        <title>Login Page</title>
+        <meta name='description' content='CoursesBox Login Page' />
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+      <form onSubmit={handleSubmit(loginHandler)} noValidate data-testid='form'>
+        <CenteredTile heading='Login Page'>
+          <OptionalFeedback>{error?.error?.message}</OptionalFeedback>
+          <StyledInput
+            autoFocus
+            label='Your username or email:'
+            placeholder='...'
+            {...fields.identifier}
+            feedback={<OptionalFeedback>{errors.identifier}</OptionalFeedback>}
+            spellCheck={false}
+            data-testid='identifier'
+          />
+          <StyledInput
+            label='Your password:'
+            type='password'
+            placeholder='**********'
+            minLength={8}
+            maxLength={10}
+            {...fields.password}
+            feedback={<OptionalFeedback>{errors.password}</OptionalFeedback>}
+            data-testid='password'
+          />
+          <Button type='submit' style={{ marginTop: '1rem' }}>
+            Enter
+          </Button>
+          <Link href='/register' passHref>
+            <MyLink isUnderline style={{ marginTop: '1rem', fontWeight: 'bold' }}>
+              Create your account
+            </MyLink>
           </Link>
-        </NextLink>
-      </CenteredTile>
-    </form>
-  )
+        </CenteredTile>
+      </form>
+    </>
+  ) : null
 }
 
 export default Login

@@ -1,108 +1,9 @@
-import { MouseEvent, ChangeEvent, ChangeEventHandler, InputHTMLAttributes, ReactNode, SVGProps } from 'react'
-import { SerializedError } from '@reduxjs/toolkit'
-import { RenderOptions } from '@testing-library/react'
-import { ImageProps } from 'next/image'
-import * as Icons from '@/components/Icon/Icons'
-import { store } from '@/store'
+import type { SerializedError } from '@reduxjs/toolkit'
 
-export type ButtonProps = {
-  /** Text in the button */
-  children: string
-  /** Button color */
-  color?: 'primary' | 'secondary' | 'danger' | 'warning'
-  /** Click handler */
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void
-}
-
-export type DefinedButton = Omit<ButtonProps, 'color'>
-
-export type CheckboxProps = {
-  /** Change handler */
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
-}
-
-export type CourseProps = {
-  /** Heading string */
-  heading: string
-  /** Image props */
-  image: ImageProps
-  /** Link address */
-  link: string
-  /** Children elements */
-  children: ReactNode
-}
-
-export type IconProps = {
-  /** Icon name */
-  name: keyof typeof Icons
-  /** Width and height */
-  size?: number
-} & SVGProps<SVGSVGElement>
-
-export type IconButtonProps = {
-  /** Click handler */
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void
-} & Omit<IconProps, 'ref'>
-
-export type FeedbackProps = {
-  /** Is valid feedback */
-  isValid?: boolean
-}
-
-export type InputWrapperProps = {
-  /** Input height */
-  height?: number
-  /** Input width */
-  width?: number
-  /** Label visibility */
-  isLabelVisible?: boolean
-  /** Feedback visibility */
-  isFeedbackVisible?: boolean
-}
-
-export type InputProps = {
-  /** Input placeholder */
-  placeholder: string
-  /** Change handler */
-  onChange?: ChangeEventHandler<HTMLInputElement>
-  /** Input label */
-  label?: string
-  /** Icon */
-  icon?: keyof typeof Icons
-  /** Feedback for input */
-  feedback?: ReactNode
-} & InputWrapperProps &
-  InputHTMLAttributes<HTMLInputElement>
-
-export type LayoutProps = {
-  /** Children elements */
-  children: ReactNode
-}
-
-export type LinkProps = {
-  /** Is underline or not */
-  underline?: boolean
-}
-
-export type LogoProps = {
-  /** Logo size */
-  size?: number
-}
-
-export type SwitchProps = {
-  /** Change handler */
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
-}
-
-export type TileProps = {
-  /** Heading */
-  heading: ReactNode
-  /** Text in the tile */
-  children: ReactNode
-}
+type WithAtLeast<T, K extends keyof T> = Required<Pick<T, K>> & Partial<Omit<T, K>>
 
 export type LoginData = {
-  /** User's email or username */
+  /** User's username or email */
   identifier: string
   /** User's password */
   password: string
@@ -117,26 +18,94 @@ export type RegisterData = {
   passwordConfirmation?: string
 } & Pick<LoginData, 'password'>
 
-export type UserState = {
-  /** JWT token */
-  jwt: string
-  /** Request state */
-  requestState?: 'pending' | 'fulfilled' | 'rejected'
-  /** Error */
-  error?: SerializedError
-} & Pick<RegisterData, 'email' | 'username'>
-
-export type UserPayload = {
-  jwt: string
-  user: Pick<RegisterData, 'email' | 'username'>
+export type User = Pick<RegisterData, 'email' | 'username'> & {
+  id: number
+  provider: string
+  confirmed: boolean
+  blocked: boolean
+  createdAt: string
+  updatedAt: string
 }
 
-// Infer the RootState and AppDispatch types from the store itself
-export type RootState = ReturnType<typeof store.getState>
+export type UserPayload = {
+  /** JWT token */
+  jwt: string
+  /** User data */
+  user: User
+}
 
-// Inferred type: {posts: PostState, comments: CommentState, users: UserState}
-export type AppDispatch = typeof store.dispatch
+type RequestState = 'pending' | 'fulfilled' | 'rejected'
 
-export type StoreAndRenderOptions = {
-  preloadedState?: RootState
-} & RenderOptions
+export type UserState = Pick<UserPayload, 'jwt'> & {
+  /** User's email and username */
+  user: WithAtLeast<User, 'email' | 'username'>
+  /** Request state */
+  requestState?: RequestState
+  /** Error payload from Strapi backend */
+  error?: ErrorPayload
+}
+
+type AppError = WithAtLeast<SerializedError, 'message' | 'name'> & {
+  status: number
+  details: any
+}
+
+type Meta = {
+  pagination?: {
+    page: number
+    pageSize: number
+    pageCount: number
+    total: number
+  }
+}
+
+type WithDataErrorAndMeta<D> = { data: D; error: AppError; meta: Meta }
+type WithData<D> = Pick<WithDataErrorAndMeta<D>, 'data'>
+type WithDataAndError<D> = Omit<WithDataErrorAndMeta<D>, 'meta'>
+type WithDataAndMeta<D> = Omit<WithDataErrorAndMeta<D>, 'error'>
+type WithIDAndAttributes<A = Record<string, unknown>> = { id: number; attributes: A }
+
+export type ErrorPayload = WithDataAndError<null>
+
+type Image = {
+  name: string
+  hash: string
+  ext: string
+  mime: string
+  width: number
+  height: number
+  size: number
+  url: string
+}
+
+export type Course = WithIDAndAttributes<{
+  description: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  link: string
+  title: string
+  subtitle: string
+  cover: WithData<
+    WithIDAndAttributes<
+      Image & {
+        alternativeText: string
+        caption: string
+        formats: {
+          thumbnail: Image & { path: any }
+          small: Image & { path: any }
+          medium: Image & { path: any }
+          large: Image & { path: any }
+        }
+        previewUrl: any
+        provider: string
+        provider_metadata: any
+        createdAt: string
+        updatedAt: string
+      }
+    >
+  >
+}>
+
+export type CoursePayload = WithDataAndMeta<Course>
+export type CoursesPayload = WithDataAndMeta<Course[]>

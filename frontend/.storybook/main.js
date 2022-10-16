@@ -15,11 +15,14 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-a11y',
+    'storybook-addon-next',
   ],
 
-  async webpackFinal(config) {
+  env: (config) => ({ ...config, NEXT_PUBLIC_STRAPI_URL: '' }),
+
+  webpackFinal: async (config) => {
     config.resolve.plugins = [
-      ...(config.resolve.plugins || []),
+      ...(config.resolve.plugins ?? []),
       new TsconfigPathsPlugin({ extensions: config.resolve.extensions }),
     ]
 
@@ -36,5 +39,7 @@ module.exports = {
     emotionAlias: false,
   },
 
-  typescript: { reactDocgen: false },
+  typescript: {
+    reactDocgen: false,
+  },
 }

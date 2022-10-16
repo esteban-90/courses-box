@@ -1,5 +1,9 @@
 import styled from '@emotion/styled'
-import { LogoProps } from '@/types'
+
+type LogoProps = {
+  /** Logo size */
+  size?: number
+}
 
 export const Logo = styled.header<LogoProps>`
   font-family: 'Monoton', cursive;

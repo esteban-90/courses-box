@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Feedback test cases Render check for invalid 1`] = `
+exports[`Feedback test cases: should check render for invalid feedback 1`] = `
 <DocumentFragment>
   <span
     class="css-xjluvf"
@@ -10,7 +10,7 @@ exports[`Feedback test cases Render check for invalid 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Feedback test cases Render check for valid 1`] = `
+exports[`Feedback test cases: should check render for valid feedback 1`] = `
 <DocumentFragment>
   <span
     class="css-116yo8b"

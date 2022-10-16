@@ -2,9 +2,20 @@
   "compilerOptions": {
     "target": "es5",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["*"],
+      "@styled/*": [
+        "components/*/Checkbox.styled.tsx",
+        "components/*/Course.styled.tsx",
+        "components/*/IconButton.styled.tsx",
+        "components/*/Input.styled.tsx",
+        "components/*/Layout.styled.tsx",
+        "components/*/Switch.styled.tsx",
+        "components/Tile/*/CenteredTile.styled.tsx",
+        "components/*/Tile.styled.tsx"
+      ],
+      "@icons": ["components/Icon/Icons.tsx"]
     },
-    "baseUrl": ".",
+    "baseUrl": "./",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,

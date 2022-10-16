@@ -1,7 +1,11 @@
-import { FC, forwardRef, ForwardedRef } from 'react'
-import { Icon } from '@/components/Icon'
-import { IconButtonProps } from '@/types'
-import * as Styled from './IconButton.styled'
+import type { FC, MouseEventHandler, ForwardedRef } from 'react'
+import { forwardRef } from 'react'
+import { Icon, type IconProps } from '@/components/Icon'
+import * as Styled from '@styled/IconButton'
+
+type IconButtonProps = {
+  onClick?: MouseEventHandler<HTMLButtonElement>
+} & Omit<IconProps, 'ref'>
 
 export const IconButton: FC<IconButtonProps> = forwardRef(({ onClick, ...rest }, ref): JSX.Element => {
   return (

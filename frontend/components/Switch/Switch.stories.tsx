@@ -1,5 +1,4 @@
-import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
-// import { expect } from '@storybook/jest'
+import type { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 import { screen, userEvent } from '@storybook/testing-library'
 import { Switch } from '@/components/Switch'
 
@@ -9,9 +8,7 @@ export default {
 } as ComponentMeta<typeof Switch>
 
 export const BasicSwitch: ComponentStoryObj<typeof Switch> = {
-  async play({ args }) {
+  async play() {
     await userEvent.click(screen.getByTestId('switchVisiblePart'))
-    // @todo: https://github.com/storybookjs/storybook/issues/16941
-    // await expect(args.onChange).toHaveBeenCalled()
   },
 }

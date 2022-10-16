@@ -1,6 +1,6 @@
+import type { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 import { expect } from '@storybook/jest'
 import { screen } from '@storybook/testing-library'
-import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 import { CenteredTile } from '@/components/Tile'
 
 export default {

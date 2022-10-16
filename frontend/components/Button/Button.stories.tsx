@@ -1,5 +1,4 @@
-import { ComponentStoryObj, ComponentMeta } from '@storybook/react'
-// import { expect } from '@storybook/jest'
+import type { ComponentStoryObj, ComponentMeta } from '@storybook/react'
 import { screen, userEvent } from '@storybook/testing-library'
 import { Button } from '@/components/Button'
 
@@ -12,37 +11,32 @@ export default {
 } as ComponentMeta<typeof Button>
 
 export const PrimaryButton: ComponentStoryObj<typeof Button> = {
-  async play({ args }) {
+  async play() {
     await userEvent.click(screen.getByRole('button'))
-    // @todo: https://github.com/storybookjs/storybook/issues/16941
-    // await expect(args.onClick).toHaveBeenCalled()
   },
 
   args: {
-    color: 'primary',
+    action: 'primary',
   },
 }
 
 export const SecondaryButton: ComponentStoryObj<typeof Button> = {
   ...PrimaryButton,
-
   args: {
-    color: 'secondary',
+    action: 'secondary',
   },
 }
 
 export const WarningButton: ComponentStoryObj<typeof Button> = {
   ...PrimaryButton,
-
   args: {
-    color: 'warning',
+    action: 'warning',
   },
 }
 
 export const DangerButton: ComponentStoryObj<typeof Button> = {
   ...PrimaryButton,
-
   args: {
-    color: 'danger',
+    action: 'danger',
   },
 }

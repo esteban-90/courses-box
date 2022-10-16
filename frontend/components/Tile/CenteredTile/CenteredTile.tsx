@@ -1,6 +1,6 @@
-import { FC } from 'react'
-import { TileProps } from '@/types'
-import * as Styled from './CenteredTile.styled'
+import type { FC } from 'react'
+import type { TileProps } from '@/components/Tile/Tile'
+import * as Styled from '@styled/CenteredTile'
 
 export const CenteredTile: FC<TileProps> = ({ children, heading, ...rest }): JSX.Element => {
   return (

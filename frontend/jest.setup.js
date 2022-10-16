@@ -25,3 +25,11 @@ afterEach(() => server.resetHandlers())
 
 // Clean up after the tests are finished
 afterAll(() => server.close())
+
+jest.mock('next/router', () => ({
+  ...jest.requireActual('next/router'),
+  useRouter: jest.fn().mockReturnValue({
+    query: {},
+    push: jest.fn(),
+  }),
+}))

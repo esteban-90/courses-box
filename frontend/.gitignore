@@ -37,6 +37,8 @@ next-env.d.ts
 
 *.lock
 
-*.log
+# Storybook
+storybook-static
+build-storybook.log
 
 .env

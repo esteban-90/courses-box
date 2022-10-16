@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { RegisterData } from '@/types'
+// import { useIsomorphicLayoutEffect } from '@/hooks'
+import type { RegisterData } from '@/types'
 import { registerSchema } from '@/validations'
 
 const registerValues: RegisterData = {
@@ -11,7 +12,7 @@ const registerValues: RegisterData = {
   passwordConfirmation: '',
 }
 
-export const useRegister = () => {
+export const useRegisterForm = () => {
   const {
     register,
     handleSubmit,

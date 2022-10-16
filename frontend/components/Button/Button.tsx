@@ -1,7 +1,11 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 import styled from '@emotion/styled'
 import { makeShadow } from '@/styles/helpers'
-import { ButtonProps, DefinedButton } from '@/types'
+
+type ButtonProps = {
+  /** Button action */
+  action?: 'primary' | 'secondary' | 'danger' | 'warning'
+}
 
 export const Button = styled.button<ButtonProps>`
   all: unset;
@@ -17,27 +21,27 @@ export const Button = styled.button<ButtonProps>`
   border-radius: 1rem;
   transition: all 0.4s ease;
 
-  color: ${({ color, theme }) => {
-    const $font = color === 'secondary' ? 'regular' : color === 'warning' ? 'warning' : 'button'
-    return theme.font[$font]
+  color: ${({ action, theme }) => {
+    const color = action === 'secondary' ? 'regular' : action === 'warning' ? 'warning' : 'button'
+    return theme.font[color]
   }};
 
-  background-color: ${({ color = 'primary', theme }) => {
-    const $color = color === 'secondary' ? 'transparent' : theme.components[color]
-    return $color
+  background-color: ${({ action = 'primary', theme }) => {
+    const backgroundColor = action === 'secondary' ? 'transparent' : theme.components[action]
+    return backgroundColor
   }};
 
   box-shadow: ${({ theme }) => {
     const { shadow1, shadow2 } = theme.components
-    const $shadow = makeShadow(shadow1, shadow2)
-    return $shadow
+    const boxShadow = makeShadow(shadow1, shadow2)
+    return boxShadow
   }};
 
   &:active {
     box-shadow: ${({ theme }) => {
       const { shadow1, shadow2 } = theme.components
-      const $shadow = makeShadow(shadow1, shadow2, true)
-      return $shadow
+      const boxShadow = makeShadow(shadow1, shadow2, true)
+      return boxShadow
     }};
   }
 
@@ -46,7 +50,9 @@ export const Button = styled.button<ButtonProps>`
   }
 `
 
-export const PrimaryButton: FC<DefinedButton> = (props): JSX.Element => <Button color='primary' {...props} />
-export const SecondaryButton: FC<DefinedButton> = (props): JSX.Element => <Button color='secondary' {...props} />
-export const DangerButton: FC<DefinedButton> = (props): JSX.Element => <Button color='danger' {...props} />
-export const WarningButton: FC<DefinedButton> = (props): JSX.Element => <Button color='warning' {...props} />
+type ActionButtonProps = Omit<ButtonProps, 'action'>
+
+export const PrimaryButton: FC<ActionButtonProps> = (props): JSX.Element => <Button action='primary' {...props} />
+export const SecondaryButton: FC<ActionButtonProps> = (props): JSX.Element => <Button action='secondary' {...props} />
+export const DangerButton: FC<ActionButtonProps> = (props): JSX.Element => <Button action='danger' {...props} />
+export const WarningButton: FC<ActionButtonProps> = (props): JSX.Element => <Button action='warning' {...props} />

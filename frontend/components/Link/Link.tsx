@@ -1,11 +1,10 @@
 import styled from '@emotion/styled'
-import { LinkProps } from '@/types'
 
-export const Link = styled.a<LinkProps>`
+export const Link = styled.a<{ isUnderline?: boolean }>`
   all: unset;
   cursor: pointer;
   color: ${({ theme }) => theme.font.regular};
-  text-decoration: ${({ underline }) => (underline ? 'underline' : 'none')};
+  text-decoration: ${({ isUnderline }) => (isUnderline ? 'underline' : 'none')};
 
   &:hover {
     opacity: 0.7;

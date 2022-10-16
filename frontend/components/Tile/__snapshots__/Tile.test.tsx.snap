@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tile test cases Render check 1`] = `
+exports[`Tile test cases: should check render 1`] = `
 <DocumentFragment>
   <section
     class="css-j83qpn"

@@ -5,4 +5,4 @@ export default {
   component: Error404,
 }
 
-export const Error404Page = () => <Error404 />
+export const Error404Page = (): JSX.Element => <Error404 />

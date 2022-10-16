@@ -1,3 +1,5 @@
+import { string } from 'yup'
+
 /**
  * RegExp to match an username that is:
  * between five and eight alpha-numeric characters long
@@ -15,7 +17,7 @@ export const usernameRegExp = /^(?=.{5,8})(?![a-z]\d?$)[A-Z]?[a-z]+\d*$/
  * one special character
  * and is between eight and ten characters long.
  */
-export const passwordRegExp = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,10})/
+const passwordRegExp = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,10})/
 
 export const messages = {
   required: {
@@ -29,3 +31,8 @@ export const messages = {
     passwordConfirmation: 'Passwords must match',
   },
 }
+
+export const password = string()
+  .trim()
+  .required(messages.required.field)
+  .matches(passwordRegExp, messages.invalid.password)

@@ -1,92 +1,101 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import type { NextPage } from 'next'
+import { useEffect } from 'react'
+import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useSelector, useDispatch } from 'react-redux'
-import NextLink from 'next/link'
 import styled from '@emotion/styled'
-import { Button, Input, ConditionalFeedback, Link, CenteredTile } from '@/components'
-import { useRegister } from '@/hooks'
-import { register, selectUser } from '@/services'
-import { RegisterData, RootState, AppDispatch } from '@/types'
+import { Button, Input, OptionalFeedback, Link as MyLink, CenteredTile } from '@/components'
+import { useRegisterForm, useAppDispatch, useAppSelector } from '@/hooks'
+import { register, logout } from '@/services'
+import type { RegisterData } from '@/types'
 
 const StyledInput = styled(Input)`
   margin-bottom: 1rem;
 `
 
-const Register: NextPage = (): JSX.Element => {
+const Register: NextPage = (): JSX.Element | null => {
+  const { jwt, error } = useAppSelector()
+  const dispatch = useAppDispatch()
   const router = useRouter()
-  const dispatch = useDispatch<AppDispatch>()
-  const { jwt, error } = useSelector<RootState, RootState['user']>(selectUser)
-  const { handleSubmit, fields, errors } = useRegister()
+  const { handleSubmit, fields, errors } = useRegisterForm()
 
-  const submitHandler = (data: RegisterData) => {
+  const registerHandler = (data: RegisterData) => {
     dispatch(register(data))
   }
 
-  if (!!jwt && !error) {
-    router.push('/profile')
-  }
+  useEffect(() => {
+    if (jwt) router.push('/profile')
+  }, [jwt])
 
-  return (
-    <form onSubmit={handleSubmit(submitHandler)} noValidate data-testid='form'>
-      <CenteredTile heading='Register Page'>
-        <h3>
-          <ConditionalFeedback>{error?.message}</ConditionalFeedback>
-        </h3>
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => dispatch(logout()), 5_000)
+      return () => clearTimeout(timer)
+    }
+  }, [error])
 
-        <StyledInput
-          label='Your username:'
-          placeholder='...'
-          minLength={5}
-          maxLength={8}
-          {...fields.username}
-          feedback={<ConditionalFeedback>{errors.username}</ConditionalFeedback>}
-          spellCheck={false}
-          data-testid='username'
-        />
-
-        <StyledInput
-          label='Your email:'
-          type='email'
-          placeholder='user@example.com'
-          {...fields.email}
-          feedback={<ConditionalFeedback>{errors.email}</ConditionalFeedback>}
-          data-testid='email'
-        />
-
-        <StyledInput
-          label='Your password:'
-          type='password'
-          placeholder='**********'
-          minLength={8}
-          maxLength={10}
-          {...fields.password}
-          feedback={<ConditionalFeedback>{errors.password}</ConditionalFeedback>}
-          data-testid='password'
-        />
-
-        <StyledInput
-          label='Confirm your password:'
-          type='password'
-          placeholder='**********'
-          minLength={8}
-          maxLength={10}
-          {...fields.passwordConfirmation}
-          feedback={<ConditionalFeedback>{errors.passwordConfirmation}</ConditionalFeedback>}
-          data-testid='passwordConfirmation'
-        />
-
-        <Button type='submit' style={{ marginTop: '1rem' }}>
-          Done
-        </Button>
-
-        <NextLink href='/login' passHref>
-          <Link underline style={{ marginTop: '1rem', fontWeight: 'bold' }}>
-            Access your account
+  return !jwt ? (
+    <>
+      <Head>
+        <title>Register Page</title>
+        <meta name='description' content='CoursesBox Register Page' />
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+      <form onSubmit={handleSubmit(registerHandler)} noValidate data-testid='form'>
+        <CenteredTile heading='Register Page'>
+          <OptionalFeedback>{error?.error?.message}</OptionalFeedback>
+          <StyledInput
+            autoFocus
+            label='Your username:'
+            placeholder='...'
+            minLength={5}
+            maxLength={8}
+            {...fields.username}
+            feedback={<OptionalFeedback>{errors.username}</OptionalFeedback>}
+            spellCheck={false}
+            data-testid='username'
+          />
+          <StyledInput
+            label='Your email:'
+            type='email'
+            placeholder='user@example.com'
+            {...fields.email}
+            feedback={<OptionalFeedback>{errors.email}</OptionalFeedback>}
+            data-testid='email'
+          />
+          <StyledInput
+            label='Your password:'
+            type='password'
+            placeholder='**********'
+            minLength={8}
+            maxLength={10}
+            {...fields.password}
+            feedback={<OptionalFeedback>{errors.password}</OptionalFeedback>}
+            data-testid='password'
+          />
+          <StyledInput
+            label='Confirm your password:'
+            type='password'
+            placeholder='**********'
+            minLength={8}
+            maxLength={10}
+            {...fields.passwordConfirmation}
+            feedback={<OptionalFeedback>{errors.passwordConfirmation}</OptionalFeedback>}
+            data-testid='passwordConfirmation'
+          />
+          <Button type='submit' style={{ marginTop: '1rem' }}>
+            Done
+          </Button>
+          <Link href='/login' passHref>
+            <MyLink isUnderline style={{ marginTop: '1rem', fontWeight: 'bold' }}>
+              Access your account
+            </MyLink>
           </Link>
-        </NextLink>
-      </CenteredTile>
-    </form>
-  )
+        </CenteredTile>
+      </form>
+    </>
+  ) : null
 }
 
 export default Register
